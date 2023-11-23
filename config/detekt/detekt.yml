@@ -1,0 +1,7 @@
+style:
+  UnusedParameter:
+    active: true
+    allowedNames: '_|(ignore|expected).*'
+  UnusedPrivateProperty:
+    active: true
+    allowedNames: '_|serialVersionUID|(ignore|expected).*'

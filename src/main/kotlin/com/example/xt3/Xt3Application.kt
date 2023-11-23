@@ -10,6 +10,6 @@ import org.springframework.boot.runApplication
 class Xt3Application
 
 fun main(args: Array<String>) {
-	@Suppress("SpreadOperator")
-	runApplication<Xt3Application>(*args)
+    @Suppress("SpreadOperator")
+    runApplication<Xt3Application>(*args)
 }

@@ -15,7 +15,6 @@ class TimelineController(
     @GetMapping("/")
     fun timeline(model: Model, @ModelAttribute tweetForm: TweetForm): String {
         val tweetArray = tweetService.scanTweet()
-        //val tweetForm = TweetForm("今どう？")
         model["tweetForm"] = tweetForm
         model["tweetArray"] = tweetArray
         model["title"] = "Timeline"

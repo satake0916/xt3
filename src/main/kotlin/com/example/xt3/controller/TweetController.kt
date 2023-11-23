@@ -12,8 +12,8 @@ class TweetController(
     private val tweetService: TweetService
 ) {
     @PostMapping("/tweet")
-    fun tweet(model: Model, tweetForm: TweetForm): String{
-        val _tweetId = tweetService.create(
+    fun tweet(ignoreModel: Model, tweetForm: TweetForm): String {
+        val expectedTweetId = tweetService.create(
             TweetCreateRequest(
                 content = tweetForm.content,
             )

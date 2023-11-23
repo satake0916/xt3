@@ -15,7 +15,7 @@ class TweetService {
     // read user by user primary key
     fun scanTweet(): Array<Tweet> {
         return TweetEntity.selectAll().map {
-            it -> Tweet(
+            Tweet(
                 id = TweetId((it[TweetEntity.id].value)),
                 content = it[TweetEntity.content],
             )

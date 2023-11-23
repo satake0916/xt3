@@ -7,15 +7,19 @@ plugins {
     id("org.springframework.boot") version "3.1.5"
     id("io.spring.dependency-management") version "1.1.3"
     id("org.flywaydb.flyway") version "8.2.0"
-    kotlin("jvm") version "1.8.22"
-    kotlin("plugin.spring") version "1.8.22"
+    id("io.gitlab.arturbosch.detekt").version("1.23.0")
+    kotlin("jvm") version "1.8.21"
+    kotlin("plugin.spring") version "1.8.21"
 }
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
+kotlin {
+    jvmToolchain {
+        (this).languageVersion.set(JavaLanguageVersion.of(17))
+        vendor = JvmVendorSpec.AMAZON
+    }
 }
 
 repositories {
@@ -32,6 +36,7 @@ dependencies {
     implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0")
 }
 
 tasks.withType<KotlinCompile> {
@@ -50,6 +55,12 @@ flyway {
     user = "local"
     password = "local"
     schemas = arrayOf("app")
+}
+
+detekt {
+    source.setFrom("src/main/kotlin")
+    config.setFrom("config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
 }
 
 tasks.bootBuildImage {
