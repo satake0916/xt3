@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping
 class TweetController(
     private val tweetService: TweetService
 ) {
-    data class UserResponse(
-        val id: Long,
-        val name: String,
-        val age: Int,
-    )
     @PostMapping("/tweet")
     fun tweet(model: Model, tweetForm: TweetForm): String{
         val _tweetId = tweetService.create(
