@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping
 class TimelineController {
     @GetMapping("/")
     fun timeline(model: Model): String {
-        model["title"] = "Timeline";
-        return "timeline";
+        model["title"] = "Timeline"
+        return "timeline"
     }
 }

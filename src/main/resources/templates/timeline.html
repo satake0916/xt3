@@ -5,6 +5,8 @@
     <title th:text="${title}">Title</title>
 </head>
 <body>
-
+    <form method="post" th:action="@{/tweet}">
+        <input type="submit" value="tweet">
+    </form>
 </body>
 </html>
