@@ -1,5 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val exposedVersion: String by project
+val mysqlConnectorVersion: String by project
+
 plugins {
 	id("org.springframework.boot") version "3.1.5"
 	id("io.spring.dependency-management") version "1.1.3"
@@ -24,6 +27,9 @@ dependencies {
 	implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")
+	implementation ("mysql:mysql-connector-java:$mysqlConnectorVersion")
+	implementation("com.h2database:h2")
 }
 
 tasks.withType<KotlinCompile> {
