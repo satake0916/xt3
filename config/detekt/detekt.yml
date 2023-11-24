@@ -5,3 +5,6 @@ style:
   UnusedPrivateProperty:
     active: true
     allowedNames: '_|serialVersionUID|(ignore|expected).*'
+  MaxLineLength:
+    active: true
+    maxLineLength: 100
