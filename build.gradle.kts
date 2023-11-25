@@ -37,6 +37,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 }
 
 tasks.withType<KotlinCompile> {
