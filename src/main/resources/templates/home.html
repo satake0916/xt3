@@ -6,7 +6,7 @@
 </head>
 <body>
 <form action="#" th:action="@{/tweet}" th:object="${tweetForm}" method="post">
-    <p>Content: <input type="text" th:field="*{content}"/></p>
+    <p>Text: <input type="text" th:field="*{text}"/></p>
     <input type="submit" value="Tweet"/>
 </form>
 
@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     <tr th:if="${!#lists.isEmpty(tweetArray)}" th:each="tweet : ${tweetArray}">
-        <td th:text="${tweet.content}">/td>
+        <td th:text="${tweet.text}">/td>
     </tr>
     </tbody>
 </table>

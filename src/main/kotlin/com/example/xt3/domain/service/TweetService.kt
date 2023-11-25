@@ -1,8 +1,8 @@
-package com.example.xt3.service
+package com.example.xt3.domain.service
 
-import com.example.xt3.domain.Tweet
-import com.example.xt3.domain.TweetEntity
-import com.example.xt3.domain.TweetId
+import com.example.xt3.domain.entity.Tweets
+import com.example.xt3.domain.model.dto.TweetDto
+import com.example.xt3.domain.model.dto.TweetId
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
 import org.springframework.stereotype.Component
@@ -13,19 +13,19 @@ import org.springframework.transaction.annotation.Transactional
 class TweetService {
 
     // read user by user primary key
-    fun scanTweet(): Array<Tweet> {
-        return TweetEntity.selectAll().map {
-            Tweet(
-                id = TweetId((it[TweetEntity.id].value)),
-                content = it[TweetEntity.content],
+    fun scanTweet(): Array<TweetDto> {
+        return Tweets.selectAll().map {
+            TweetDto(
+                id = TweetId((it[Tweets.id].value)),
+                text = it[Tweets.text],
             )
         }.toTypedArray()
     }
 
     // create Tweet
     fun create(request: TweetCreateRequest): TweetId {
-        val id = TweetEntity.insertAndGetId {
-            it[content] = request.content
+        val id = Tweets.insertAndGetId {
+            it[text] = request.text
         }
 
         return TweetId(id.value)
@@ -33,5 +33,5 @@ class TweetService {
 }
 
 data class TweetCreateRequest(
-    val content: String
+    val text: String
 )

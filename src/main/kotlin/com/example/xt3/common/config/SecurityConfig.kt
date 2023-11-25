@@ -1,4 +1,4 @@
-package com.example.xt3.config
+package com.example.xt3.common.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,12 +17,11 @@ class SecurityConfig {
     @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests { authz ->
-            authz.requestMatchers("/open").permitAll()
-                .anyRequest().authenticated()
+            authz.anyRequest().authenticated()
         }.formLogin { login ->
             login.loginProcessingUrl("/login")
                 .loginPage("/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/home")
                 .failureUrl("/login?error")
                 .permitAll()
                 .usernameParameter("email")

@@ -1,8 +1,8 @@
 package com.example.xt3.controller
 
-import com.example.xt3.domain.form.TweetForm
-import com.example.xt3.service.TweetCreateRequest
-import com.example.xt3.service.TweetService
+import com.example.xt3.domain.model.form.TweetForm
+import com.example.xt3.domain.service.TweetCreateRequest
+import com.example.xt3.domain.service.TweetService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,7 +15,7 @@ class TweetController(
     fun tweet(ignoreModel: Model, tweetForm: TweetForm): String {
         val expectedTweetId = tweetService.create(
             TweetCreateRequest(
-                content = tweetForm.content,
+                text = tweetForm.text,
             )
         )
 

@@ -1,10 +1,10 @@
-package com.example.xt3.domain
+package com.example.xt3.domain.model.dto
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.userdetails.UserDetails
 
-data class User(
+data class UserDto(
     val id: UserId,
     val email: String,
     val pass: String,

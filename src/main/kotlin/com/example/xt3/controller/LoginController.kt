@@ -5,7 +5,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
-class IndexController {
+class LoginController {
     @GetMapping("/login")
     fun login(ignoredModel: Model): String {
         return "login"

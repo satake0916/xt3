@@ -1,8 +1,8 @@
-package com.example.xt3.service
+package com.example.xt3.domain.service
 
-import com.example.xt3.domain.User
-import com.example.xt3.domain.UserEntity
-import com.example.xt3.domain.UserId
+import com.example.xt3.domain.entity.Users
+import com.example.xt3.domain.model.dto.UserDto
+import com.example.xt3.domain.model.dto.UserId
 import org.jetbrains.exposed.sql.select
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional
 class MyUserDetailsService : UserDetailsService {
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails? {
-        val user = UserEntity.select { UserEntity.email eq username }.firstOrNull()?.let {
-            User(
-                id = UserId(it[UserEntity.id].value),
-                email = it[UserEntity.email],
-                pass = it[UserEntity.pass],
-                role = it[UserEntity.role],
+        val user = Users.select { Users.email eq username }.firstOrNull()?.let {
+            UserDto(
+                id = UserId(it[Users.id].value),
+                email = it[Users.email],
+                pass = it[Users.pass],
+                role = it[Users.role],
             )
         }
         return user
