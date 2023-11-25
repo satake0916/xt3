@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 val exposedVersion: String by project
 val mysqlConnectorVersion: String by project
@@ -7,7 +8,8 @@ plugins {
     id("org.springframework.boot") version "3.1.5"
     id("io.spring.dependency-management") version "1.1.3"
     id("org.flywaydb.flyway") version "8.2.0"
-    id("io.gitlab.arturbosch.detekt").version("1.23.0")
+    id("io.gitlab.arturbosch.detekt") version "1.23.0"
+    id("org.openapi.generator") version "7.1.0"
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.spring") version "1.8.21"
 }
@@ -38,6 +40,10 @@ dependencies {
     implementation("org.flywaydb:flyway-mysql")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    compileOnly("io.swagger.core.v3:swagger-annotations:2.2.4")
+    compileOnly("io.swagger.core.v3:swagger-models:2.2.4")
+    compileOnly("jakarta.annotation:jakarta.annotation-api:2.1.1")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 }
 
 tasks.withType<KotlinCompile> {
@@ -66,4 +72,31 @@ detekt {
 
 tasks.bootBuildImage {
     builder.set("paketobuildpacks/builder-jammy-base:latest")
+}
+
+task<GenerateTask>("generateApiDoc") {
+    generatorName.set("html2")
+    inputSpec.set("$projectDir/openapi.yaml")
+    outputDir.set("$projectDir/docs/openapi/")
+}
+
+task<GenerateTask>("generateApiServer") {
+    generatorName.set("kotlin-spring")
+    inputSpec.set("$projectDir/openapi.yaml")
+    outputDir.set("$projectDir/src/main/kotlin/com/example/xt3/openapi/generated")
+    apiPackage.set("com.example.xt3.openapi.generated.controller") // 各自のアプリケーションに合わせてパス名を変更する
+    modelPackage.set("com.example.xt3.openapi.generated.model") // 各自のアプリケーションに合わせてパス名を変更する
+    configOptions.set(
+        mapOf(
+            "interfaceOnly" to "true",
+            "useSpringBoot3" to "true"
+        )
+    )
+    additionalProperties.set(
+        mapOf(
+            "useTags" to "true",
+            "gradleBuildFile" to "false",
+            "useSwaggerUI" to "false",
+        )
+    )
 }

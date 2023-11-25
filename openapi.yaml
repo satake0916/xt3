@@ -1,0 +1,68 @@
+openapi: 3.0.2
+
+info:
+  title: XT3 API
+  version: 0.0.1
+
+servers:
+  - url: 'http://localhost:8080'
+    description: 'Local Environment'
+
+paths:
+  /tweets:
+    get:
+      tags:
+        - tweets
+      responses:
+        '200':
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TweetRes'
+    post:
+      tags:
+        - tweets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TweetRes'
+      responses:
+        '201':
+          description: Success
+  /tweets/{tweetId}:
+    get:
+      tags:
+        - tweets
+      summary: Get tweet by ID
+      description: Returns a tweet
+      parameters:
+        - name: tweetId
+          in: path
+          description: ID of tweet to return
+          required: true
+          schema: { type: integer, format: int64 }
+      responses:
+        '200':
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweetRes'
+        '404':
+          description: Tweet not found
+
+components:
+  schemas:
+    TweetRes:
+      required:
+        - text
+        - accountId
+      type: object
+      properties:
+        text: { type: string }
+        accountId: { type: integer, format: int64 }

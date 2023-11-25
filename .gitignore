@@ -38,3 +38,6 @@ out/
 
 ### Docker ###
 /docker/db/data/
+
+### OpenAPI ###
+**/openapi/generated/
