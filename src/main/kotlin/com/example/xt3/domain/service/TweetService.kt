@@ -25,6 +25,7 @@ class TweetService {
     // create Tweet
     fun create(request: TweetCreateRequest): TweetId {
         val id = Tweets.insertAndGetId {
+            it[accountId] = request.accountId
             it[text] = request.text
         }
 
@@ -33,5 +34,6 @@ class TweetService {
 }
 
 data class TweetCreateRequest(
+    val accountId: Long,
     val text: String
 )

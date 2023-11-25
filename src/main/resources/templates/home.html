@@ -6,6 +6,7 @@
 </head>
 <body>
 <form action="#" th:action="@{/tweet}" th:object="${tweetForm}" method="post">
+    <p>Account ID: <input type="number" th:field="*{accountId}"/></p>
     <p>Text: <input type="text" th:field="*{text}"/></p>
     <input type="submit" value="Tweet"/>
 </form>
