@@ -1,38 +1,22 @@
 package com.example.xt3.domain.service
 
 import com.example.xt3.domain.entity.Tweets
-import com.example.xt3.domain.model.dto.TweetDto
-import com.example.xt3.domain.model.dto.TweetId
 import com.example.xt3.openapi.generated.model.TweetRes
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.insertAndGetId
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Component
+@Service
 @Transactional
 class TweetService {
-
-    // read user by user primary key
-    fun scanTweet(): Array<TweetDto> {
-        return Tweets.selectAll().map {
-            TweetDto(
-                id = TweetId((it[Tweets.id].value)),
-                text = it[Tweets.text],
-            )
-        }.toTypedArray()
-    }
-
-    // create Tweet
-    fun create(request: TweetCreateRequest): TweetId {
-        val id = Tweets.insertAndGetId {
-            it[accountId] = request.accountId
-            it[text] = request.text
+    fun postTweet(tweetRes: TweetRes) {
+        Tweets.insert {
+            it[accountId] = tweetRes.accountId
+            it[text] = tweetRes.text
         }
-
-        return TweetId(id.value)
     }
 
     fun getAllTweets(): List<TweetRes> {
@@ -53,8 +37,3 @@ class TweetService {
         }
     }
 }
-
-data class TweetCreateRequest(
-    val accountId: Long,
-    val text: String
-)

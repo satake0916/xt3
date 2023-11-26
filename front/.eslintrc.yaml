@@ -1,0 +1,28 @@
+root: true
+env:
+  browser: true
+  es2023: true
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - airbnb
+  - airbnb-typescript
+  - prettier
+parser: "@typescript-eslint/parser"
+parserOptions:
+  project: ./tsconfig.json
+  extraFileExtensions:
+    - '.css'
+plugins:
+  - simple-import-sort
+  - import
+rules:
+  simple-import-sort/imports: error
+  simple-import-sort/exports: error
+  import/first: error
+  import/newline-after-import: error
+  import/no-duplicates: error
+  react/react-in-jsx-scope: off
+  "@typescript-eslint/consistent-type-definitions":
+    - error
+    - type
