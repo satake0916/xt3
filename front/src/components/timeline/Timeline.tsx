@@ -1,11 +1,22 @@
 import "./Timeline.css";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
+import { TweetsApi } from "../../openapi/generated/apis";
+import { TweetRes } from "../../openapi/generated/models";
 import Post from "./Post";
 import TweetBox from "./TweetBox";
 
 function Timeline() {
+  const [tweets, setTweets] = useState<TweetRes[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await new TweetsApi().tweetsGet();
+      setTweets(res);
+    })();
+  }, []);
+
   return (
     <div className="timeline">
       <div className="timeline-header">
@@ -14,7 +25,13 @@ function Timeline() {
 
       <TweetBox />
 
-      <Post />
+      {tweets.map((tweet) => (
+        <Post
+          accountName={tweet.text}
+          accountId={tweet.accountId.toString()}
+          text={tweet.text}
+        />
+      ))}
     </div>
   );
 }

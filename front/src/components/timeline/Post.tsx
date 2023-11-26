@@ -9,7 +9,13 @@ import {
 import { Avatar } from "@mui/material";
 import React from "react";
 
-function Post() {
+type PostProps = {
+  accountName: string;
+  accountId: string;
+  text: string;
+};
+
+function Post({ accountName, accountId, text }: PostProps) {
   return (
     <div className="post">
       <div className="post-avatar">
@@ -19,12 +25,12 @@ function Post() {
         <div className="post-header">
           <div className="post-header-text">
             <h3>
-              Sample Account Name
-              <span className="post-header-special">@sample_account_id</span>
+              {accountName}
+              <span className="post-header-special">@{accountId}</span>
             </h3>
           </div>
           <div className="post-header-description">
-            <p>Good Morning!</p>
+            <p>{text}</p>
           </div>
         </div>
         <div className="post-footer">

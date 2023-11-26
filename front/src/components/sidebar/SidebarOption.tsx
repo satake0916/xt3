@@ -6,7 +6,9 @@ import React from "react";
 
 type SidebarOptionProps = {
   text: string;
-  Icon: OverridableComponent<SvgIconTypeMap<object, "svg">> & { muiName: string };
+  Icon: OverridableComponent<SvgIconTypeMap<object, "svg">> & {
+    muiName: string;
+  };
 };
 
 function SidebarOption({ text, Icon }: SidebarOptionProps) {
