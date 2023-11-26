@@ -100,3 +100,16 @@ task<GenerateTask>("generateApiServer") {
         )
     )
 }
+
+task<GenerateTask>("generateApiClient") {
+    generatorName.set("typescript-fetch")
+    inputSpec.set("$projectDir/openapi.yaml")
+    outputDir.set("$projectDir/front/src/openapi/generated")
+    additionalProperties.set(
+        mapOf(
+            "useTags" to "true",
+            "gradleBuildFile" to "false",
+            "useSwaggerUI" to "false",
+        )
+    )
+}
