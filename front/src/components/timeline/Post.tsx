@@ -1,4 +1,9 @@
-import { ChatBubbleOutline, FavoriteBorder, PublishOutlined, Repeat } from "@mui/icons-material";
+import {
+  ChatBubbleOutline,
+  FavoriteBorder,
+  PublishOutlined,
+  Repeat,
+} from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import React from "react";
 import "./Post.css";
