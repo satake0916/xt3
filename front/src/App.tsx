@@ -1,5 +1,7 @@
-import React from "react";
 import "./App.css";
+
+import React from "react";
+
 import Sidebar from "./components/sidebar/Sidebar";
 import Timeline from "./components/timeline/Timeline";
 import Widgets from "./components/widget/Widgets";

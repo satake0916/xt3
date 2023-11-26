@@ -1,11 +1,11 @@
-import React from "react";
 import "./Timeline.css";
-import TweetBox from "./TweetBox";
+
+import React from "react";
+
 import Post from "./Post";
+import TweetBox from "./TweetBox";
 
-type Props = {};
-
-function Timeline({}: Props) {
+function Timeline() {
   return (
     <div className="timeline">
       <div className="timeline-header">

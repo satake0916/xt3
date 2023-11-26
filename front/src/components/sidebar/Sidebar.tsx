@@ -1,18 +1,17 @@
-import React from "react";
-import SidebarOption from "./SidebarOption";
 import "./Sidebar.css";
 
-import TwitterIcon from "@mui/icons-material/Twitter";
 import HomeIcon from "@mui/icons-material/Home";
-import SearchIcon from "@mui/icons-material/Search";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import SearchIcon from "@mui/icons-material/Search";
+import TwitterIcon from "@mui/icons-material/Twitter";
 import { Button } from "@mui/material";
+import React from "react";
 
-type Props = {};
+import SidebarOption from "./SidebarOption";
 
-function Sidebar({}: Props) {
+function Sidebar() {
   return (
     <div className="sidebar">
       {/* Icon */}

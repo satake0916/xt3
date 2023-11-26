@@ -1,3 +1,5 @@
+import "./Post.css";
+
 import {
   ChatBubbleOutline,
   FavoriteBorder,
@@ -6,11 +8,8 @@ import {
 } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import React from "react";
-import "./Post.css";
 
-type Props = {};
-
-function Post({}: Props) {
+function Post() {
   return (
     <div className="post">
       <div className="post-avatar">

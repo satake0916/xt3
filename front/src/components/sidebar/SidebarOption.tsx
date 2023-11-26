@@ -1,11 +1,12 @@
+import "./SidebarOption.css";
+
 import { SvgIconTypeMap } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import React from "react";
-import "./SidebarOption.css";
 
 type SidebarOptionProps = {
   text: string;
-  Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };
+  Icon: OverridableComponent<SvgIconTypeMap<object, "svg">> & { muiName: string };
 };
 
 function SidebarOption({ text, Icon }: SidebarOptionProps) {
