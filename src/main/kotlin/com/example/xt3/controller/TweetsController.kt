@@ -2,11 +2,12 @@ package com.example.xt3.controller
 
 import com.example.xt3.domain.service.TweetService
 import com.example.xt3.openapi.generated.controller.TweetsApi
+import com.example.xt3.openapi.generated.model.TweetReq
 import com.example.xt3.openapi.generated.model.TweetRes
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin
 @RestController
@@ -21,8 +22,8 @@ class TweetsController(
         )
     }
 
-    override fun tweetsPost(tweetRes: TweetRes): ResponseEntity<Unit> {
-        tweetService.postTweet(tweetRes)
+    override fun tweetsPost(tweetReq: TweetReq): ResponseEntity<Unit> {
+        tweetService.postTweet(tweetReq)
         return ResponseEntity(
             HttpStatus.OK
         )

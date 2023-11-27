@@ -35,6 +35,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
     implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
@@ -97,6 +98,11 @@ task<GenerateTask>("generateApiServer") {
             "useTags" to "true",
             "gradleBuildFile" to "false",
             "useSwaggerUI" to "false",
+        )
+    )
+    typeMappings.set(
+        mapOf(
+            "DateTime" to "java.time.LocalDateTime"
         )
     )
 }
