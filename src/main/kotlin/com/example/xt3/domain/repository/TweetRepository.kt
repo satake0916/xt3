@@ -55,4 +55,20 @@ class TweetRepository {
                 )
             }
     }
+
+    fun selectTweetByAccountId(accountId: AccountId): List<TweetDto> {
+        return Tweets
+            .select(Tweets.accountId eq accountId.value)
+            .orderBy(Tweets.createdAt)
+            .map {
+                TweetDto(
+                    tweetId = TweetId(it[Tweets.tweetId]),
+                    accountId = AccountId(it[Tweets.accountId]),
+                    tweetText = it[Tweets.tweetText],
+                    parentTweetId = it[Tweets.parentTweetId]?.let { it1 -> TweetId(it1) },
+                    createdAt = it[Tweets.createdAt],
+                    updatedAt = it[Tweets.updatedAt]
+                )
+            }
+    }
 }

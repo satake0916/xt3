@@ -46,4 +46,21 @@ class TweetService(
         )
     }
      */
+
+    fun getAllTweetsByAccountId(
+        accountId: Long,
+    ): GetTweetsRes {
+        val tweets = tweetRepository.selectTweetByAccountId(AccountId(accountId)).map {
+            TweetRes(
+                tweetId = it.tweetId.value,
+                accountId = it.accountId.value,
+                tweetText = it.tweetText,
+                createdAt = it.createdAt
+            )
+        }
+        return GetTweetsRes(
+            total = tweets.size,
+            tweets = tweets
+        )
+    }
 }

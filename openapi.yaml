@@ -9,6 +9,20 @@ servers:
     description: 'Local Environment'
 
 paths:
+  /login:
+    post:
+      tags:
+        - login
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthForm'
+      responses:
+        '200':
+          description: success
+        '401':
+          description: login failure
   /tweets:
     get:
       tags:
@@ -22,8 +36,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTweetsRes'
-        '401':
-          description: unauthorized
+        '403':
+          description: please login
     post:
       tags:
         - tweets
@@ -37,8 +51,8 @@ paths:
       responses:
         '201':
           description: success
-        '401':
-          description: unauthorized
+        '403':
+          description: please login
         '5XX':
           description: internal server error
   /tweets/{tweetId}:
@@ -64,10 +78,31 @@ paths:
                 $ref: '#/components/schemas/GetTweetsByTweetIdRes'
         '400':
           description: no tweet
-        '401':
-          description: unauthorized
+        '403':
+          description: please login
         '404':
           description: tweet not found
+  /tweets/by/account-id/{accountId}:
+    get:
+      tags:
+        - tweets
+      parameters:
+        - name: accountId
+          in: path
+          description: ID of account has tweets to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTweetsRes'
+        '403':
+          description: please login
   /accounts/{accountId}:
     get:
       tags:
@@ -91,8 +126,8 @@ paths:
                 $ref: '#/components/schemas/AccountRes'
         '400':
           description: no account id
-        '401':
-          description: unauthorized
+        '403':
+          description: please login
         '404':
           description: account not found
 
@@ -183,4 +218,16 @@ components:
         profileImageUrl:
           type: string
           example: https://example.com/profile_image.jpg
+    AuthForm:
+      required:
+        - email
+        - pass
+      type: object
+      properties:
+        email:
+          type: string
+          example: user@example.com
+        pass:
+          type: string
+          example: pass1234
 
