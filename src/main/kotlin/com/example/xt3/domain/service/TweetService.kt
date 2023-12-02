@@ -1,9 +1,9 @@
 package com.example.xt3.domain.service
 
 import com.example.xt3.domain.model.dto.AccountId
-import com.example.xt3.domain.model.dto.TweetId
 import com.example.xt3.domain.model.dto.TweetQueryDto
 import com.example.xt3.domain.repository.TweetRepository
+import com.example.xt3.openapi.generated.model.GetTweetsRes
 import com.example.xt3.openapi.generated.model.TweetReq
 import com.example.xt3.openapi.generated.model.TweetRes
 import org.springframework.stereotype.Service
@@ -18,32 +18,32 @@ class TweetService(
         tweetRepository.insertTweet(
             TweetQueryDto(
                 accountId = AccountId(tweetReq.accountId),
-                text = tweetReq.text
+                tweetText = tweetReq.tweetText
             )
         )
     }
 
-    fun getAllTweets(): List<TweetRes> {
-        return tweetRepository.selectAllTweet().map {
+    fun getAllTweets(): GetTweetsRes {
+        val tweets = tweetRepository.selectAllTweet().map {
             TweetRes(
-                id = it.id.value,
+                tweetId = it.tweetId.value,
                 accountId = it.accountId.value,
-                accountName = it.accountName,
-                text = it.text,
+                tweetText = it.tweetText,
                 createdAt = it.createdAt
             )
         }
+        return GetTweetsRes(
+            total = tweets.size,
+            tweets = tweets
+        )
     }
 
-    fun findByTweetId(tweetId: Long): TweetRes? {
-        return tweetRepository.selectTweetById(TweetId(tweetId))?.let {
-            TweetRes(
-                id = it.id.value,
-                accountId = it.accountId.value,
-                accountName = it.accountName,
-                text = it.text,
-                createdAt = it.createdAt
-            )
-        }
+    /*
+    fun findByTweetId(tweetId: Long): GetTweetsByTweetIdRes {
+        return GetTweetsByTweetIdRes(
+            data = TweetRes(),
+            include = emptyList()
+        )
     }
+     */
 }

@@ -18,35 +18,40 @@ class TweetRepository {
     fun insertTweet(tweetQueryDto: TweetQueryDto) {
         Tweets.insert {
             it[accountId] = tweetQueryDto.accountId.value
-            it[text] = tweetQueryDto.text
+            it[tweetText] = tweetQueryDto.tweetText
         }
     }
 
     fun selectAllTweet(): List<TweetDto> {
         return Tweets
-            .join(otherTable = Accounts, JoinType.INNER, onColumn = Tweets.accountId, otherColumn = Accounts.id)
             .selectAll()
             .map {
                 TweetDto(
-                    id = TweetId(it[Tweets.id].value),
+                    tweetId = TweetId(it[Tweets.tweetId]),
                     accountId = AccountId(it[Tweets.accountId]),
-                    accountName = it[Accounts.displayName],
-                    text = it[Tweets.text],
-                    createdAt = it[Tweets.createdAt]
+                    tweetText = it[Tweets.tweetText],
+                    parentTweetId = it[Tweets.parentTweetId]?.let { it1 -> TweetId(it1) },
+                    createdAt = it[Tweets.createdAt],
+                    updatedAt = it[Tweets.updatedAt]
                 )
             }
     }
 
     fun selectTweetById(tweetId: TweetId): TweetDto? {
         return Tweets
-            .join(otherTable = Accounts, JoinType.INNER, onColumn = Tweets.accountId, otherColumn = Accounts.id)
-            .select(Tweets.id eq tweetId.value).firstOrNull()?.let {
+            .join(
+                otherTable = Accounts,
+                JoinType.INNER,
+                onColumn = Tweets.accountId,
+                otherColumn = Accounts.accountId
+            ).select(Tweets.tweetId eq tweetId.value).firstOrNull()?.let {
                 TweetDto(
-                    id = TweetId(it[Tweets.id].value),
+                    tweetId = TweetId(it[Tweets.tweetId]),
                     accountId = AccountId(it[Tweets.accountId]),
-                    accountName = it[Accounts.displayName],
-                    text = it[Tweets.text],
-                    createdAt = it[Tweets.createdAt]
+                    tweetText = it[Tweets.tweetText],
+                    parentTweetId = it[Tweets.parentTweetId]?.let { it1 -> TweetId(it1) },
+                    createdAt = it[Tweets.createdAt],
+                    updatedAt = it[Tweets.updatedAt]
                 )
             }
     }

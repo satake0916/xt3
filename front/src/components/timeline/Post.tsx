@@ -10,12 +10,12 @@ import { Avatar } from "@mui/material";
 import React from "react";
 
 type PostProps = {
+  displayName: string;
   accountName: string;
-  accountId: string;
-  text: string;
+  tweetText: string;
 };
 
-function Post({ accountName, accountId, text }: PostProps) {
+function Post({ displayName, accountName, tweetText }: PostProps) {
   return (
     <div className="post">
       <div className="post-avatar">
@@ -25,12 +25,12 @@ function Post({ accountName, accountId, text }: PostProps) {
         <div className="post-header">
           <div className="post-header-text">
             <h3>
-              {accountName}
-              <span className="post-header-special">@{accountId}</span>
+              {displayName}
+              <span className="post-header-special">@{accountName}</span>
             </h3>
           </div>
           <div className="post-header-description">
-            <p>{text}</p>
+            <p>{tweetText}</p>
           </div>
         </div>
         <div className="post-footer">

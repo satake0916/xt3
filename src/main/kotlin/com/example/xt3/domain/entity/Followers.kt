@@ -5,21 +5,22 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.datetime
 import java.time.LocalDateTime
 
-object Tweets : Table(name = "tweets") {
-    val tweetId = long("tweet_id").autoIncrement()
-    val accountId = long("account_id").references(
+object Followers : Table(name = "followers") {
+    val followingAccountId = long("following_account_id").references(
         Accounts.accountId,
         fkName = "fk_account_id",
         onUpdate = ReferenceOption.CASCADE,
         onDelete = ReferenceOption.RESTRICT
     )
-    val tweetText = varchar("tweet_text", length = 140)
-    val parentTweetId = long("parent_tweet_id").references(
-        tweetId,
-        fkName = "fk_tweet_id"
-    ).nullable()
+    val followedAccountId = long("followed_account_id").references(
+        Accounts.accountId,
+        fkName = "fk_account_id",
+        onUpdate = ReferenceOption.CASCADE,
+        onDelete = ReferenceOption.RESTRICT
+    )
+
     val createdAt = datetime("created_at").clientDefault { LocalDateTime.now() }
     val updatedAt = datetime("updated_at").clientDefault { LocalDateTime.now() }
 
-    override val primaryKey = PrimaryKey(tweetId)
+    override val primaryKey = PrimaryKey(followingAccountId, followedAccountId)
 }

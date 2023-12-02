@@ -17,10 +17,12 @@ class MyUserDetailsService : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails? {
         val user = Users.select { Users.email eq username }.firstOrNull()?.let {
             UserDto(
-                id = UserId(it[Users.id].value),
+                userId = UserId(it[Users.user_id]),
                 email = it[Users.email],
                 pass = it[Users.pass],
-                role = it[Users.role],
+                roleType = it[Users.roleType],
+                createdAt = it[Users.createdAt],
+                updatedAt = it[Users.updatedAt]
             )
         }
         return user

@@ -3,16 +3,19 @@ package com.example.xt3.domain.model.dto
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.userdetails.UserDetails
+import java.time.LocalDateTime
 
 data class UserDto(
-    val id: UserId,
+    val userId: UserId,
     val email: String,
     val pass: String,
-    val role: String,
+    val roleType: String,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime
 ) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority>? {
-        return AuthorityUtils.createAuthorityList(this.role)
+        return AuthorityUtils.createAuthorityList(this.roleType)
     }
 
     override fun isEnabled(): Boolean {

@@ -3,11 +3,12 @@ package com.example.xt3.domain.model.dto
 import java.time.LocalDateTime
 
 data class TweetDto(
-    val id: TweetId,
+    val tweetId: TweetId,
     val accountId: AccountId,
-    val accountName: String,
-    val text: String,
-    val createdAt: LocalDateTime
+    val tweetText: String,
+    val parentTweetId: TweetId?,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime
 )
 
 @JvmInline

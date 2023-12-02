@@ -66,7 +66,11 @@ flyway {
 }
 
 detekt {
-    source.setFrom("src/main/kotlin")
+    source.setFrom(
+        "src/main/kotlin/com/example/xt3/common",
+        "src/main/kotlin/com/example/xt3/controller",
+        "src/main/kotlin/com/example/xt3/domain"
+    )
     config.setFrom("config/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }

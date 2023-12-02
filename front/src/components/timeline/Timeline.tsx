@@ -13,7 +13,7 @@ function Timeline() {
   useEffect(() => {
     (async () => {
       const res = await new TweetsApi().tweetsGet();
-      setTweets(res);
+      setTweets(res.tweets);
     })();
   }, []);
 
@@ -27,9 +27,9 @@ function Timeline() {
 
       {tweets.map((tweet) => (
         <Post
-          accountName={tweet.text}
-          accountId={tweet.accountId.toString()}
-          text={tweet.text}
+          displayName={tweet.accountId.toString()}
+          accountName={tweet.accountId.toString()}
+          tweetText={tweet.tweetText}
         />
       ))}
     </div>

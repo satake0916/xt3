@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class AccountService {
     fun findByAccountId(accountId: Long): AccountRes? {
-        return Accounts.select { Accounts.id eq accountId }.firstOrNull()?.let {
+        return Accounts.select { Accounts.accountId eq accountId }.firstOrNull()?.let {
             AccountRes(
-                id = it[Accounts.id].value,
+                accountId = it[Accounts.accountId],
                 accountName = it[Accounts.displayName],
-                description = it[Accounts.description],
+                displayName = it[Accounts.displayName],
+                profileDescription = it[Accounts.profileDescription],
+                profileImageUrl = it[Accounts.profileImageUrl]
             )
         }
     }
