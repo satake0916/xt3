@@ -24,7 +24,8 @@ class MyUserDetailsService : UserDetailsService {
                 createdAt = it[Users.createdAt],
                 updatedAt = it[Users.updatedAt]
             )
-        }
+        } ?: throw UsernameNotFoundException("User not found for email: $username")
+
         return user
     }
 }

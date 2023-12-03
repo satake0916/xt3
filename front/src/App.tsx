@@ -1,17 +1,22 @@
 import "./App.css";
 
 import React from "react";
+import { Outlet } from "react-router-dom";
 
 import Sidebar from "./components/sidebar/Sidebar";
-import Timeline from "./components/timeline/Timeline";
 import Widgets from "./components/widget/Widgets";
+
 
 function App() {
   return (
     <div className="app">
+      
       <Sidebar />
-      <Timeline />
+      
+      <Outlet />
+  
       <Widgets />
+  
     </div>
   );
 }

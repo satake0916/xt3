@@ -5,10 +5,8 @@ import com.example.xt3.openapi.generated.controller.TweetsApi
 import com.example.xt3.openapi.generated.model.GetTweetsRes
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.RestController
 
-@CrossOrigin
 @RestController
 class TweetsController(
     private val tweetService: TweetService

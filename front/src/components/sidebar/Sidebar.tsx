@@ -1,6 +1,7 @@
 import "./Sidebar.css";
 
 import HomeIcon from "@mui/icons-material/Home";
+import LoginIcon from '@mui/icons-material/Login';
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
@@ -14,17 +15,15 @@ import SidebarOption from "./SidebarOption";
 function Sidebar() {
   return (
     <div className="sidebar">
-      {/* Icon */}
       <TwitterIcon className="sidebar-twitter-icon" />
 
-      {/* SidebarOptions */}
-      <SidebarOption text="Home" Icon={HomeIcon} />
-      <SidebarOption text="Search" Icon={SearchIcon} />
-      <SidebarOption text="Notification" Icon={NotificationsNoneIcon} />
-      <SidebarOption text="Message" Icon={MailOutlineIcon} />
-      <SidebarOption text="Profile" Icon={PermIdentityIcon} />
+      <SidebarOption text="Home" Icon={HomeIcon} href="/"/>
+      <SidebarOption text="Explore" Icon={SearchIcon} href="/explore"/>
+      <SidebarOption text="Notifications" Icon={NotificationsNoneIcon} href="/notifications"/>
+      <SidebarOption text="Messages" Icon={MailOutlineIcon} href="/messages"/>
+      <SidebarOption text="Profile" Icon={PermIdentityIcon} href="/home"/>
+      <SidebarOption text="Login" Icon={LoginIcon} href="/login"/>
 
-      {/* Tweet Button */}
       <Button variant="outlined" className="sidebar-tweet" fullWidth>
         Tweet
       </Button>
