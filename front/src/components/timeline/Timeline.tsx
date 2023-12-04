@@ -1,21 +1,24 @@
 import "./Timeline.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import apiConfig from "../../config/ApiConfig";
 import { TweetsApi } from "../../openapi/generated/apis";
 import { TweetRes } from "../../openapi/generated/models";
 import Post from "./Post";
 import TweetBox from "./TweetBox";
+import { UserContext } from "../../providers/UserProvider";
 
 function Timeline() {
   const [tweets, setTweets] = useState<TweetRes[]>([]);
+  const {userId} = useContext(UserContext)
 
   useEffect(() => {
     (async () => {
       const res = await new TweetsApi(apiConfig).tweetsGet();
       setTweets(res.tweets);
       console.log("get tweets");
+      console.log(userId);
     })();
   }, []);
 

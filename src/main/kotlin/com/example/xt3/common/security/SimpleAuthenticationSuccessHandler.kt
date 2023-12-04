@@ -1,5 +1,6 @@
 package com.example.xt3.common.security
 
+import com.example.xt3.domain.model.dto.UserDto
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -14,12 +15,14 @@ class SimpleAuthenticationSuccessHandler : AuthenticationSuccessHandler {
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        auth: Authentication?
+        auth: Authentication
     ) {
         if (response.isCommitted) {
             println("Response has already been committed.")
             return
         }
+        val userDto = auth.principal as UserDto
+        response.writer.write("{\"userId\":${userDto.userId.value}}")
         response.status = HttpStatus.OK.value()
         clearAuthenticationAttributes(request)
     }

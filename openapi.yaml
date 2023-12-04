@@ -21,6 +21,10 @@ paths:
       responses:
         '200':
           description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRes'
         '401':
           description: login failure
   /tweets:
@@ -230,4 +234,12 @@ components:
         pass:
           type: string
           example: pass1234
+    UserRes:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
 

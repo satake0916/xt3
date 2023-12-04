@@ -11,6 +11,7 @@ import App from "./App";
 import ErrorPage from "./components/errorpage/ErrorPage";
 import Login from "./components/login/Login";
 import Timeline from "./components/timeline/Timeline";
+import UserProvider from "./providers/UserProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -36,6 +37,8 @@ const router = createBrowserRouter([
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+  </React.StrictMode>
 );
