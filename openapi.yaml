@@ -134,6 +134,27 @@ paths:
           description: please login
         '404':
           description: account not found
+  /users/{userId}:
+    get:
+      tags:
+        - users
+      summary: Get user and their accounts by user id
+      description: Returns an user information and their accounts information
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithAccountsRes'
 
 components:
   schemas:
@@ -203,7 +224,7 @@ components:
         - displayName
         - accountName
         - profileDescription
-        - createdAt
+        - isPrimary
       type: object
       properties:
         accountId:
@@ -222,6 +243,8 @@ components:
         profileImageUrl:
           type: string
           example: https://example.com/profile_image.jpg
+        isPrimary:
+          type: boolean
     AuthForm:
       required:
         - email
@@ -242,4 +265,15 @@ components:
         userId:
           type: integer
           format: int64
-
+    UserWithAccountsRes:
+      required:
+        - data
+        - include
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/UserRes"
+        include:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccountRes"

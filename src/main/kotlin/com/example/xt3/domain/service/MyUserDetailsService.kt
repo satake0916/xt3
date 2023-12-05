@@ -17,7 +17,7 @@ class MyUserDetailsService : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails? {
         val user = Users.select { Users.email eq username }.firstOrNull()?.let {
             UserDto(
-                userId = UserId(it[Users.user_id]),
+                userId = UserId(it[Users.userId]),
                 email = it[Users.email],
                 pass = it[Users.pass],
                 roleType = it[Users.roleType],

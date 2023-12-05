@@ -16,7 +16,8 @@ class AccountService {
                 accountName = it[Accounts.displayName],
                 displayName = it[Accounts.displayName],
                 profileDescription = it[Accounts.profileDescription],
-                profileImageUrl = it[Accounts.profileImageUrl]
+                profileImageUrl = it[Accounts.profileImageUrl],
+                isPrimary = it[Accounts.isPrimary]
             )
         }
     }

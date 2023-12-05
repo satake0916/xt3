@@ -11,14 +11,15 @@ import { UserContext } from "../../providers/UserProvider";
 
 function Timeline() {
   const [tweets, setTweets] = useState<TweetRes[]>([]);
-  const {userId} = useContext(UserContext)
+  const {userId, activeAccountId} = useContext(UserContext)
 
   useEffect(() => {
     (async () => {
       const res = await new TweetsApi(apiConfig).tweetsGet();
       setTweets(res.tweets);
       console.log("get tweets");
-      console.log(userId);
+      console.log("user: ", userId);
+      console.log("account: ", activeAccountId)
     })();
   }, []);
 

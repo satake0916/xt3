@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 object Accounts : Table(name = "accounts") {
     val accountId = long("account_id").autoIncrement()
     val userId = long("user_id").references(
-        Users.user_id,
+        Users.userId,
         fkName = "fk_user_id",
         onUpdate = ReferenceOption.CASCADE,
         onDelete = ReferenceOption.RESTRICT
