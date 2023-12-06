@@ -3,6 +3,7 @@ package com.example.xt3.controller
 import com.example.xt3.domain.service.TweetService
 import com.example.xt3.openapi.generated.controller.TweetsApi
 import com.example.xt3.openapi.generated.model.GetTweetsRes
+import com.example.xt3.openapi.generated.model.TweetReq
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
@@ -40,5 +41,10 @@ class TweetsController(
             tweetService.getAllTweetsByFollowedAccountsByAccountId(accountId),
             HttpStatus.OK
         )
+    }
+
+    override fun tweetsPost(tweetReq: TweetReq): ResponseEntity<Unit> {
+        tweetService.postTweet(tweetReq)
+        return ResponseEntity(HttpStatus.OK)
     }
 }

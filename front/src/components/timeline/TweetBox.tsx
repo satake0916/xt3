@@ -1,21 +1,27 @@
 import "./TweetBox.css";
 
 import { Avatar, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { TweetsApi } from "../../openapi/generated/apis";
+import { UserContext } from "../../providers/UserProvider";
+import apiConfig from "../../config/ApiConfig";
 
 function TweetBox() {
   const [tweetMessage, setTweetMessage] = useState("");
+  const {activeAccountId} = useContext(UserContext)
+
 
   async function sendTweet(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    await new TweetsApi().tweetsPost({
+    await new TweetsApi(apiConfig).tweetsPost({
       tweetReq: {
         tweetText: tweetMessage,
-        accountId: 1,
+        accountId: activeAccountId,
       },
-    });
+    }).catch((e) => {
+      console.log(e);
+    })
     setTweetMessage("")
   }
 
