@@ -15,7 +15,6 @@ class SimpleAuthenticationFailureHandler : AuthenticationFailureHandler {
         response: HttpServletResponse,
         exception: AuthenticationException?
     ) {
-        println("login fail.")
         response.sendError(HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.reasonPhrase)
     }
 }

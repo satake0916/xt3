@@ -34,4 +34,11 @@ class TweetsController(
             HttpStatus.OK
         )
     }
+
+    override fun tweetsByFolloweeAccountIdGet(accountId: Long): ResponseEntity<GetTweetsRes> {
+        return ResponseEntity(
+            tweetService.getAllTweetsByFollowedAccountsByAccountId(accountId),
+            HttpStatus.OK
+        )
+    }
 }

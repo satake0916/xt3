@@ -65,5 +65,5 @@ FROM (
     CROSS JOIN accounts a2
     WHERE a1.account_id != a2.account_id
     ORDER BY RAND()
-    LIMIT 500 -- Adjust the number of followers here
+    LIMIT 30 -- Adjust the number of followers here
 ) AS f;

@@ -90,6 +90,7 @@ paths:
     get:
       tags:
         - tweets
+      summary: Get Tweets of followees of the account
       parameters:
         - name: accountId
           in: path
@@ -107,6 +108,27 @@ paths:
                 $ref: '#/components/schemas/GetTweetsRes'
         '403':
           description: please login
+  /tweets/by/followee/{accountId}:
+    get:
+      tags:
+        - tweets
+      parameters:
+        - name: accountId
+          in: path
+          description: ID of account
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTweetsRes'
+        '403':
+          description: please login 
   /accounts/{accountId}:
     get:
       tags:

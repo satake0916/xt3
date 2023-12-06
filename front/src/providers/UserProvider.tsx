@@ -30,7 +30,7 @@ function UserProvider({ children }: UserProviderProps) {
   useEffect(() => {
     new UsersApi(apiConfig)
       .usersUserIdGet({
-        userId: userId,
+        userId,
       })
       .then((res) => {
         setUserId(res.data.userId);

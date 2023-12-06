@@ -19,7 +19,6 @@ class SimpleAuthenticationEntryPoint : AuthenticationEntryPoint {
             println("Response has already been committed.")
             return
         }
-        println("authenticate fail.")
         response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase)
     }
 }
