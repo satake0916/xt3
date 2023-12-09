@@ -3,7 +3,7 @@ package com.example.xt3.domain.model.dto
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
-class TweetDtoTest : FunSpec({
+class TweetDtoTests : FunSpec({
     test("tweet id from long test") {
         val tweetId = TweetId(123)
         tweetId.valueLong shouldBe 123

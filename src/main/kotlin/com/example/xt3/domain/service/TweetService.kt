@@ -73,7 +73,7 @@ class TweetService(
         )
     }
 
-    private fun convertTweetDtoToTweetRes(
+    fun convertTweetDtoToTweetRes(
         tweetDto: TweetDto
     ): TweetRes {
         val accountDto = accountRepository.getAccountsByAccountId(tweetDto.accountId)!!
