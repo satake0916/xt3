@@ -3,6 +3,7 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 val exposedVersion: String by project
 val mysqlConnectorVersion: String by project
+val kotestVersion: String by project
 
 plugins {
     id("org.springframework.boot") version "3.1.5"
@@ -45,6 +46,11 @@ dependencies {
     compileOnly("io.swagger.core.v3:swagger-models:2.2.4")
     compileOnly("jakarta.annotation:jakarta.annotation-api:2.1.1")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest:kotest-property:$kotestVersion")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
+
 }
 
 tasks.withType<KotlinCompile> {
@@ -67,9 +73,9 @@ flyway {
 
 detekt {
     source.setFrom(
-        "src/main/kotlin/com/example/xt3/common",
-        "src/main/kotlin/com/example/xt3/controller",
-        "src/main/kotlin/com/example/xt3/domain"
+            "src/main/kotlin/com/example/xt3/common",
+            "src/main/kotlin/com/example/xt3/controller",
+            "src/main/kotlin/com/example/xt3/domain"
     )
     config.setFrom("config/detekt/detekt.yml")
     buildUponDefaultConfig = true
@@ -92,22 +98,22 @@ task<GenerateTask>("generateApiServer") {
     apiPackage.set("com.example.xt3.openapi.generated.controller") // 各自のアプリケーションに合わせてパス名を変更する
     modelPackage.set("com.example.xt3.openapi.generated.model") // 各自のアプリケーションに合わせてパス名を変更する
     configOptions.set(
-        mapOf(
-            "interfaceOnly" to "true",
-            "useSpringBoot3" to "true"
-        )
+            mapOf(
+                    "interfaceOnly" to "true",
+                    "useSpringBoot3" to "true"
+            )
     )
     additionalProperties.set(
-        mapOf(
-            "useTags" to "true",
-            "gradleBuildFile" to "false",
-            "useSwaggerUI" to "false",
-        )
+            mapOf(
+                    "useTags" to "true",
+                    "gradleBuildFile" to "false",
+                    "useSwaggerUI" to "false",
+            )
     )
     typeMappings.set(
-        mapOf(
-            "DateTime" to "java.time.LocalDateTime"
-        )
+            mapOf(
+                    "DateTime" to "java.time.LocalDateTime"
+            )
     )
 }
 
@@ -116,10 +122,10 @@ task<GenerateTask>("generateApiClient") {
     inputSpec.set("$projectDir/openapi.yaml")
     outputDir.set("$projectDir/front/src/openapi/generated")
     additionalProperties.set(
-        mapOf(
-            "useTags" to "true",
-            "gradleBuildFile" to "false",
-            "useSwaggerUI" to "false",
-        )
+            mapOf(
+                    "useTags" to "true",
+                    "gradleBuildFile" to "false",
+                    "useSwaggerUI" to "false",
+            )
     )
 }

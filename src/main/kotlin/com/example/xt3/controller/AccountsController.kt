@@ -13,7 +13,7 @@ class AccountsController(
 ) : AccountsApi {
     override fun v1AccountsAccountIdGet(accountId: String): ResponseEntity<AccountRes> {
         val account = accountService.findByAccountId(accountId)
-        return if (account==null) {
+        return if (account == null) {
             ResponseEntity(
                 HttpStatus.NOT_FOUND
             )
