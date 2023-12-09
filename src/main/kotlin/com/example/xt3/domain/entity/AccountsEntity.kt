@@ -5,10 +5,10 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.datetime
 import java.time.LocalDateTime
 
-object Accounts : Table(name = "accounts") {
+object AccountsEntity : Table(name = "accounts") {
     val accountId = long("account_id").autoIncrement()
     val userId = long("user_id").references(
-        Users.userId,
+        UsersEntity.userId,
         fkName = "fk_user_id",
         onUpdate = ReferenceOption.CASCADE,
         onDelete = ReferenceOption.RESTRICT

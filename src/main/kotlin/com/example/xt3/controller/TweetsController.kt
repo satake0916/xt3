@@ -13,7 +13,7 @@ class TweetsController(
     private val tweetService: TweetService
 ) : TweetsApi {
 
-    override fun tweetsGet(): ResponseEntity<GetTweetsRes> {
+    override fun v1TweetsGet(): ResponseEntity<GetTweetsRes> {
         return ResponseEntity(
             tweetService.getAllTweets(),
             HttpStatus.OK
@@ -29,21 +29,21 @@ class TweetsController(
     }
      */
 
-    override fun tweetsByAccountIdAccountIdGet(accountId: Long): ResponseEntity<GetTweetsRes> {
+    override fun v1TweetsByAccountIdAccountIdGet(accountId: String): ResponseEntity<GetTweetsRes> {
         return ResponseEntity(
             tweetService.getAllTweetsByAccountId(accountId),
             HttpStatus.OK
         )
     }
 
-    override fun tweetsByFolloweeAccountIdGet(accountId: Long): ResponseEntity<GetTweetsRes> {
+    override fun v1TweetsByFolloweeAccountIdGet(accountId: String): ResponseEntity<GetTweetsRes> {
         return ResponseEntity(
             tweetService.getAllTweetsByFollowedAccountsByAccountId(accountId),
             HttpStatus.OK
         )
     }
 
-    override fun tweetsPost(tweetReq: TweetReq): ResponseEntity<Unit> {
+    override fun v1TweetsPost(tweetReq: TweetReq): ResponseEntity<Unit> {
         tweetService.postTweet(tweetReq)
         return ResponseEntity(HttpStatus.OK)
     }

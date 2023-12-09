@@ -1,23 +1,25 @@
 package com.example.xt3.domain.service
 
-import com.example.xt3.domain.entity.Accounts
+import com.example.xt3.domain.model.dto.AccountId
+import com.example.xt3.domain.repository.AccountRepository
 import com.example.xt3.openapi.generated.model.AccountRes
-import org.jetbrains.exposed.sql.select
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class AccountService {
-    fun findByAccountId(accountId: Long): AccountRes? {
-        return Accounts.select { Accounts.accountId eq accountId }.firstOrNull()?.let {
+class AccountService(
+    private val accountRepository: AccountRepository
+) {
+    fun findByAccountId(accountId: String): AccountRes? {
+        return accountRepository.getAccountsByAccountId(AccountId(accountId))?.let {
             AccountRes(
-                accountId = it[Accounts.accountId],
-                accountName = it[Accounts.displayName],
-                displayName = it[Accounts.displayName],
-                profileDescription = it[Accounts.profileDescription],
-                profileImageUrl = it[Accounts.profileImageUrl],
-                isPrimary = it[Accounts.isPrimary]
+                accountId = it.accountId.getValueStr(),
+                accountName = it.accountName,
+                displayName = it.displayName,
+                profileDescription = it.profileDescription,
+                profileImageUrl = it.profileImageUrl,
+                isPrimary = it.isPrimary
             )
         }
     }

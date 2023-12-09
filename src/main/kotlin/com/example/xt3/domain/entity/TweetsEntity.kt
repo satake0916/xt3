@@ -5,10 +5,10 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.datetime
 import java.time.LocalDateTime
 
-object Tweets : Table(name = "tweets") {
+object TweetsEntity : Table(name = "tweets") {
     val tweetId = long("tweet_id").autoIncrement()
     val accountId = long("account_id").references(
-        Accounts.accountId,
+        AccountsEntity.accountId,
         fkName = "fk_account_id",
         onUpdate = ReferenceOption.CASCADE,
         onDelete = ReferenceOption.RESTRICT

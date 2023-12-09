@@ -11,5 +11,10 @@ data class TweetDto(
     val updatedAt: LocalDateTime
 )
 
-@JvmInline
-value class TweetId(val value: Long)
+data class TweetId(val valueLong: Long) {
+    constructor(valueStr: String) : this(valueStr.toLong())
+
+    fun getValueStr(): String {
+        return valueLong.toString()
+    }
+}

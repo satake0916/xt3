@@ -4,7 +4,7 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.datetime
 import java.time.LocalDateTime
 
-object Users : Table(name = "users") {
+object UsersEntity : Table(name = "users") {
     val userId = long("user_id").autoIncrement()
     val email = varchar("email", length = 256)
     val pass = varchar("pass", length = 60)

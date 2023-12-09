@@ -16,17 +16,17 @@ class UserService(
     private val userRepository: UserRepository,
     private val accountRepository: AccountRepository
 ) {
-    fun getUserAndAccountsByUserId(userId: Long): UserWithAccountsRes {
+    fun getUserAndAccountsByUserId(userId: String): UserWithAccountsRes {
         // REVIEW: Exceptionを自作する
         val userDto = userRepository.getUserById(UserId(userId)) ?: throw NotFoundException()
 
         return UserWithAccountsRes(
             data = UserRes(
-                userId = userDto.userId.value
+                userId = userDto.userId.getValueStr()
             ),
             include = accountRepository.getAccountsByUserId(UserId(userId)).map {
                 AccountRes(
-                    accountId = it.accountId.value,
+                    accountId = it.accountId.getValueStr(),
                     displayName = it.displayName,
                     accountName = it.accountName,
                     profileDescription = it.profileDescription,

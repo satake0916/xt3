@@ -5,15 +5,15 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.datetime
 import java.time.LocalDateTime
 
-object Followers : Table(name = "followers") {
+object FollowersEntity : Table(name = "followers") {
     val followingAccountId = long("following_account_id").references(
-        Accounts.accountId,
+        AccountsEntity.accountId,
         fkName = "fk_account_id",
         onUpdate = ReferenceOption.CASCADE,
         onDelete = ReferenceOption.RESTRICT
     )
     val followedAccountId = long("followed_account_id").references(
-        Accounts.accountId,
+        AccountsEntity.accountId,
         fkName = "fk_account_id",
         onUpdate = ReferenceOption.CASCADE,
         onDelete = ReferenceOption.RESTRICT

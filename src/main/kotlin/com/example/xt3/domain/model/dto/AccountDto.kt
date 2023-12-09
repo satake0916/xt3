@@ -14,5 +14,12 @@ data class AccountDto(
     val updatedAt: LocalDateTime
 )
 
-@JvmInline
-value class AccountId(val value: Long)
+data class AccountId(
+    val valueLong: Long
+) {
+    constructor(valueStr: String) : this(valueStr.toLong())
+
+    fun getValueStr(): String {
+        return valueLong.toString()
+    }
+}

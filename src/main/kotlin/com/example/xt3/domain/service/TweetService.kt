@@ -3,7 +3,7 @@ package com.example.xt3.domain.service
 import com.example.xt3.domain.model.dto.AccountId
 import com.example.xt3.domain.model.dto.TweetDto
 import com.example.xt3.domain.model.dto.TweetQueryDto
-import com.example.xt3.domain.repository.FollowerRepository
+import com.example.xt3.domain.repository.AccountRepository
 import com.example.xt3.domain.repository.TweetRepository
 import com.example.xt3.openapi.generated.model.GetTweetsRes
 import com.example.xt3.openapi.generated.model.TweetReq
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class TweetService(
     private val tweetRepository: TweetRepository,
-    private val followerRepository: FollowerRepository,
+    private val accountRepository: AccountRepository,
 ) {
     fun postTweet(tweetReq: TweetReq) {
         tweetRepository.insertTweet(
@@ -28,12 +28,7 @@ class TweetService(
 
     fun getAllTweets(): GetTweetsRes {
         val tweets = tweetRepository.selectAllTweet().map {
-            TweetRes(
-                tweetId = it.tweetId.value,
-                accountId = it.accountId.value,
-                tweetText = it.tweetText,
-                createdAt = it.createdAt
-            )
+            convertTweetDtoToTweetRes(it)
         }
         return GetTweetsRes(
             total = tweets.size,
@@ -51,7 +46,7 @@ class TweetService(
      */
 
     fun getAllTweetsByAccountId(
-        accountId: Long,
+        accountId: String,
     ): GetTweetsRes {
         val tweets = tweetRepository
             .selectTweetByAccountId(AccountId(accountId))
@@ -63,10 +58,10 @@ class TweetService(
     }
 
     fun getAllTweetsByFollowedAccountsByAccountId(
-        accountId: Long
+        accountId: String
     ): GetTweetsRes {
         // REVIEW: accountIdがログイン中のuserIdのものなのかチェックが必要
-        val followingAccounts = followerRepository
+        val followingAccounts = accountRepository
             .getAccountsFollowedByAccountId(AccountId(accountId))
         val tweets = tweetRepository
             .selectTweetByMultiAccountId(followingAccounts.plus(AccountId(accountId)))
@@ -81,9 +76,12 @@ class TweetService(
     private fun convertTweetDtoToTweetRes(
         tweetDto: TweetDto
     ): TweetRes {
+        val accountDto = accountRepository.getAccountsByAccountId(tweetDto.accountId)!!
         return TweetRes(
-            tweetId = tweetDto.tweetId.value,
-            accountId = tweetDto.accountId.value,
+            tweetId = tweetDto.tweetId.getValueStr(),
+            accountId = tweetDto.accountId.getValueStr(),
+            accountName = accountDto.accountName,
+            displayName = accountDto.displayName,
             tweetText = tweetDto.tweetText,
             createdAt = tweetDto.createdAt
         )

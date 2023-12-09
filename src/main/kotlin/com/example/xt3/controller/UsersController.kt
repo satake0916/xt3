@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class UsersController(
     private val userService: UserService
 ) : UsersApi {
-    override fun usersUserIdGet(userId: Long): ResponseEntity<UserWithAccountsRes> {
+    override fun v1UsersUserIdGet(userId: String): ResponseEntity<UserWithAccountsRes> {
         return try {
             ResponseEntity(
                 userService.getUserAndAccountsByUserId(userId),

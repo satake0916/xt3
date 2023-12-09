@@ -43,5 +43,10 @@ data class UserDto(
     }
 }
 
-@JvmInline
-value class UserId(val value: Long)
+data class UserId(val valueLong: Long) {
+    constructor(valueStr: String) : this(valueStr.toLong())
+
+    fun getValueStr(): String {
+        return valueLong.toString()
+    }
+}

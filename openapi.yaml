@@ -9,7 +9,7 @@ servers:
     description: 'Local Environment'
 
 paths:
-  /login:
+  /v1/login:
     post:
       tags:
         - login
@@ -27,7 +27,7 @@ paths:
                 $ref: '#/components/schemas/UserRes'
         '401':
           description: login failure
-  /tweets:
+  /v1/tweets:
     get:
       tags:
         - tweets
@@ -59,7 +59,7 @@ paths:
           description: please login
         '5XX':
           description: internal server error
-  /tweets/{tweetId}:
+  /v1/tweets/{tweetId}:
     get:
       tags:
         - tweets
@@ -71,8 +71,7 @@ paths:
           description: ID of tweet to return
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: 'success'
@@ -86,7 +85,7 @@ paths:
           description: please login
         '404':
           description: tweet not found
-  /tweets/by/account-id/{accountId}:
+  /v1/tweets/by/account-id/{accountId}:
     get:
       tags:
         - tweets
@@ -97,8 +96,7 @@ paths:
           description: ID of account has tweets to return
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: success
@@ -108,7 +106,7 @@ paths:
                 $ref: '#/components/schemas/GetTweetsRes'
         '403':
           description: please login
-  /tweets/by/followee/{accountId}:
+  /v1/tweets/by/followee/{accountId}:
     get:
       tags:
         - tweets
@@ -118,8 +116,7 @@ paths:
           description: ID of account
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: success
@@ -128,8 +125,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetTweetsRes'
         '403':
-          description: please login 
-  /accounts/{accountId}:
+          description: please login
+  /v1/accounts/{accountId}:
     get:
       tags:
         - accounts
@@ -141,8 +138,7 @@ paths:
           description: ID of account to return
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: 'success'
@@ -156,7 +152,7 @@ paths:
           description: please login
         '404':
           description: account not found
-  /users/{userId}:
+  /v1/users/{userId}:
     get:
       tags:
         - users
@@ -168,8 +164,7 @@ paths:
           description: ID of user to return
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: success
@@ -190,28 +185,33 @@ components:
           type: string
           example: Now Tweet!
         accountId:
-          type: integer
-          format: int64
+          type: string
           example: 1
     TweetRes:
       required:
         - tweetId
         - tweetText
         - accountId
+        - accountName
+        - displayName
         - createdAt
       type: object
       properties:
         tweetId:
-          type: integer
-          format: int64
+          type: string
           example: 20
         tweetText:
           type: string
           example: just setting up my twttr
         accountId:
-          type: integer
-          format: int64
+          type: string
           example: 1
+        accountName:
+          type: string
+          example: jake
+        displayName:
+          type: string
+          example: Jake
         createdAt:
           type: string
           format: date-time
@@ -250,12 +250,11 @@ components:
       type: object
       properties:
         accountId:
-          type: integer
-          format: int64
+          type: string
           example: 1
         displayName:
           type: string
-          example: Djack
+          example: Jack
         accountName:
           type: string
           example: jack
@@ -285,8 +284,7 @@ components:
       type: object
       properties:
         userId:
-          type: integer
-          format: int64
+          type: string
     UserWithAccountsRes:
       required:
         - data

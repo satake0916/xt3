@@ -6,6 +6,7 @@ import com.example.xt3.common.security.SimpleAuthenticationFailureHandler
 import com.example.xt3.common.security.SimpleAuthenticationSuccessHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -25,6 +26,7 @@ class SecurityConfig {
         http.authorizeHttpRequests { requests ->
             requests
                 // .requestMatchers("/tweets").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
         }.csrf { csrf ->
             csrf.disable()
@@ -32,14 +34,14 @@ class SecurityConfig {
             cors.configurationSource(corsConfigurationSource())
         }.formLogin { login ->
             login
-                .loginProcessingUrl("/login").permitAll()
+                .loginProcessingUrl("/v1/login").permitAll()
                 .usernameParameter("email")
                 .passwordParameter("pass")
                 .successHandler(SimpleAuthenticationSuccessHandler())
                 .failureHandler(SimpleAuthenticationFailureHandler())
         }.logout { logout ->
             logout
-                .logoutUrl("/logout")
+                .logoutUrl("/v1/logout")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(HttpStatusReturningLogoutSuccessHandler())

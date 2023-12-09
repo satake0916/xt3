@@ -22,7 +22,8 @@ class SimpleAuthenticationSuccessHandler : AuthenticationSuccessHandler {
             return
         }
         val userDto = auth.principal as UserDto
-        response.writer.write("{\"userId\":${userDto.userId.value}}")
+        // HACK: 適切なJSONライブラリを使用するべき
+        response.writer.write("{\"userId\":${userDto.userId.getValueStr()}}")
         response.status = HttpStatus.OK.value()
         clearAuthenticationAttributes(request)
     }

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController
 class AccountsController(
     private val accountService: AccountService
 ) : AccountsApi {
-    override fun accountsAccountIdGet(accountId: Long): ResponseEntity<AccountRes> {
+    override fun v1AccountsAccountIdGet(accountId: String): ResponseEntity<AccountRes> {
         val account = accountService.findByAccountId(accountId)
-        return if (account == null) {
+        return if (account==null) {
             ResponseEntity(
                 HttpStatus.NOT_FOUND
             )
