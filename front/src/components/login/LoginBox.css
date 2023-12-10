@@ -1,0 +1,21 @@
+.login-box {
+
+}
+.login-box > form {
+
+}
+
+.login-box-login-button {
+
+}
+
+.login-box-input {
+  display: flex;
+}
+
+.login-box-input > input {
+  flex: 1;
+  font-size: 20px;
+  margin-left: 20px;
+  border: none;
+}

@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
+    ports:
+      - "3306:3306"
+    container_name: db
+    env_file:
+      - ./docker/db/.env_mysql
+    volumes:
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf

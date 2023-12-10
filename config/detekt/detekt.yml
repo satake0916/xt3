@@ -1,0 +1,12 @@
+style:
+  UnusedParameter:
+    active: true
+    allowedNames: '_|(ignore|expected).*'
+  UnusedPrivateProperty:
+    active: true
+    allowedNames: '_|serialVersionUID|(ignore|expected).*'
+  MaxLineLength:
+    active: true
+    maxLineLength: 100
+  ReturnCount:
+    active: false

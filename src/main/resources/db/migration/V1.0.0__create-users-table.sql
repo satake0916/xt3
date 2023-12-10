@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS users (
+    user_id bigint NOT NULL AUTO_INCREMENT,
+    email varchar(256) NOT NULL,
+    pass varchar(60) NOT NULL,
+    role_type varchar(32) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id)
+) ENGINE = innodb DEFAULT CHARSET = UTF8MB4;
