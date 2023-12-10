@@ -33,6 +33,25 @@ paths:
         - tweets
       summary: Get all tweets
       description: Returns all tweets. This api is for debug.
+      parameters:
+        - name: count
+          in: query
+          description: The number of tweets to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 30
+        - name: maxId
+          in: query
+          description: Returns tweets with ids lower than or equal to this
+          schema:
+            type: string
+        - name: sinceId
+          in: query
+          description: Returns tweets with ids upper than or equal to this
+          schema:
+            type: string
       responses:
         '200':
           description: success
@@ -85,11 +104,11 @@ paths:
           description: please login
         '404':
           description: tweet not found
-  /v1/tweets/by/account-id/{accountId}:
+  /v1/statuses/account-timeline/{accountId}:
     get:
       tags:
-        - tweets
-      summary: Get Tweets of followees of the account
+        - statuses
+      summary: Get timeline of the account
       parameters:
         - name: accountId
           in: path
@@ -97,24 +116,22 @@ paths:
           required: true
           schema:
             type: string
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetTweetsRes'
-        '403':
-          description: please login
-  /v1/tweets/by/followee/{accountId}:
-    get:
-      tags:
-        - tweets
-      parameters:
-        - name: accountId
-          in: path
-          description: ID of account
-          required: true
+        - name: count
+          in: query
+          description: The number of tweets to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 30
+        - name: maxId
+          in: query
+          description: Returns tweets with ids lower than or equal to this
+          schema:
+            type: string
+        - name: sinceId
+          in: query
+          description: Returns tweets with ids upper than or equal to this
           schema:
             type: string
       responses:
@@ -152,6 +169,45 @@ paths:
           description: please login
         '404':
           description: account not found
+  /v1/accounts/{accountId}/tweets:
+    get:
+      tags:
+        - statuses
+      summary: Get tweets of the account
+      parameters:
+        - name: accountId
+          in: path
+          description: ID of account has tweets to return
+          required: true
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: The number of tweets to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 30
+        - name: maxId
+          in: query
+          description: Returns tweets with ids lower than or equal to this
+          schema:
+            type: string
+        - name: sinceId
+          in: query
+          description: Returns tweets with ids upper than or equal to this
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTweetsRes'
+        '403':
+          description: please login
   /v1/users/{userId}:
     get:
       tags:

@@ -23,7 +23,7 @@ class AccountServiceTests : FunSpec({
     context("findByAccountId") {
         test("normal") {
             every {
-                mockAccountRepository.getAccountsByAccountId(AccountId("1"))
+                mockAccountRepository.getAccountsByAccountId(AccountId(1))
             } returns AccountDto(
                 accountId = AccountId(1),
                 accountName = "one_1",

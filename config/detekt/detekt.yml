@@ -8,3 +8,5 @@ style:
   MaxLineLength:
     active: true
     maxLineLength: 100
+  ReturnCount:
+    active: false

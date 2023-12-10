@@ -8,8 +8,10 @@ import com.example.xt3.domain.model.dto.UserId
 import com.example.xt3.domain.repository.AccountRepository
 import com.example.xt3.domain.repository.TweetRepository
 import com.example.xt3.openapi.generated.model.TweetRes
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.startWith
 import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDateTime
@@ -61,6 +63,18 @@ class TweetServiceTests : FunSpec({
             )
 
             actualTweetRes shouldBe expectedTweetRes
+        }
+    }
+
+    context("getAllTweets"){
+        test("non-normal"){
+            shouldThrow<IllegalArgumentException> {
+                tweetService.getAllTweets(
+                    count = 30,
+                    maxId = "5",
+                    sinceId = "10",
+                )
+            }
         }
     }
 })

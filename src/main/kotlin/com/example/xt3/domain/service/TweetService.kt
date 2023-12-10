@@ -2,6 +2,7 @@ package com.example.xt3.domain.service
 
 import com.example.xt3.domain.model.dto.AccountId
 import com.example.xt3.domain.model.dto.TweetDto
+import com.example.xt3.domain.model.dto.TweetId
 import com.example.xt3.domain.model.dto.TweetQueryDto
 import com.example.xt3.domain.repository.AccountRepository
 import com.example.xt3.domain.repository.TweetRepository
@@ -26,8 +27,20 @@ class TweetService(
         )
     }
 
-    fun getAllTweets(): GetTweetsRes {
-        val tweets = tweetRepository.selectAllTweet().map {
+    @Throws(IllegalArgumentException::class)
+    fun getAllTweets(count: Int, maxId: String?, sinceId: String?): GetTweetsRes {
+        val maxTweetId = maxId?.let { TweetId(it) }
+        val sinceTweetId = sinceId?.let { TweetId(it) }
+
+        if (maxTweetId != null && sinceTweetId != null) {
+            require(maxTweetId >= sinceTweetId)
+        }
+
+        val tweets = tweetRepository.selectAllTweet(
+            count = count,
+            maxId = maxId?.let { TweetId(it) },
+            sinceId = sinceId?.let { TweetId(it) },
+        ).map {
             convertTweetDtoToTweetRes(it)
         }
         return GetTweetsRes(
