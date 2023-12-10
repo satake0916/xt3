@@ -18,14 +18,21 @@ class TweetsController(
         maxId: String?,
         sinceId: String?
     ): ResponseEntity<GetTweetsRes> {
-        return ResponseEntity(
-            tweetService.getAllTweets(
-                count = count,
-                maxId = maxId,
-                sinceId = sinceId,
-            ),
-            HttpStatus.OK
-        )
+        return try {
+            ResponseEntity(
+                tweetService.getAllTweets(
+                    count = count,
+                    maxId = maxId,
+                    sinceId = sinceId,
+                ),
+                HttpStatus.OK
+            )
+        } catch (e: IllegalArgumentException) {
+            println(e)
+            ResponseEntity(
+                HttpStatus.BAD_REQUEST
+            )
+        }
     }
 
     override fun v1TweetsTweetIdGet(tweetId: String): ResponseEntity<GetTweetsByTweetIdRes> {

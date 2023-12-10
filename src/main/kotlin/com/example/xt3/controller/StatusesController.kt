@@ -17,14 +17,21 @@ class StatusesController(
         maxId: String?,
         sinceId: String?
     ): ResponseEntity<GetTweetsRes> {
-        return ResponseEntity(
-            tweetService.getAllTweetsByFollowedAccountsByAccountId(
-                accountId = accountId,
-                count = count,
-                maxId = maxId,
-                sinceId = sinceId,
-            ),
-            HttpStatus.OK
-        )
+        return try {
+            ResponseEntity(
+                tweetService.getAllTweetsByFollowedAccountsByAccountId(
+                    accountId = accountId,
+                    count = count,
+                    maxId = maxId,
+                    sinceId = sinceId,
+                ),
+                HttpStatus.OK
+            )
+        } catch (e: IllegalArgumentException) {
+            println(e)
+            ResponseEntity(
+                HttpStatus.BAD_REQUEST
+            )
+        }
     }
 }
