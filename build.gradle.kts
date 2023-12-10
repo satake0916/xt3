@@ -51,6 +51,7 @@ dependencies {
     testImplementation("io.kotest:kotest-property:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
 }
 
 tasks.withType<KotlinCompile> {

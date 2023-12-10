@@ -5,6 +5,7 @@ import com.example.xt3.domain.service.TweetService
 import com.example.xt3.openapi.generated.controller.AccountsApi
 import com.example.xt3.openapi.generated.model.AccountRes
 import com.example.xt3.openapi.generated.model.GetTweetsRes
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
@@ -14,6 +15,7 @@ class AccountsController(
     private val accountService: AccountService,
     private val tweetService: TweetService,
 ) : AccountsApi {
+    private val logger = LoggerFactory.getLogger(AccountsController::class.java)
     override fun v1AccountsAccountIdGet(accountId: String): ResponseEntity<AccountRes> {
         val account = accountService.findByAccountId(accountId)
         return if (account == null) {
@@ -45,7 +47,7 @@ class AccountsController(
                 HttpStatus.OK
             )
         } catch (e: IllegalArgumentException) {
-            println(e)
+            logger.info(e.toString())
             ResponseEntity(
                 HttpStatus.BAD_REQUEST
             )
