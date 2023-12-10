@@ -58,19 +58,23 @@ class TweetRepository {
             }
     }
 
-    fun selectTweetByAccountId(accountId: AccountId): List<TweetDto> {
-        return TweetsEntity
-            .select(TweetsEntity.accountId eq accountId.valueLong)
-            .orderBy(TweetsEntity.createdAt)
-            .map {
-                convertResultRowToTweetDto(it)
-            }
-    }
-
-    fun selectTweetByMultiAccountId(accountIdList: List<AccountId>): List<TweetDto> {
-        return TweetsEntity
+    fun selectTweetsByAccountId(
+        accountIdList: List<AccountId>,
+        count: Int,
+        maxId: TweetId?,
+        sinceId: TweetId?,
+    ): List<TweetDto> {
+        val query = TweetsEntity
             .select(TweetsEntity.accountId.inList(accountIdList.map { it.valueLong }))
+            .limit(count)
             .orderBy(TweetsEntity.createdAt)
+        maxId?.let {
+            query.andWhere { TweetsEntity.tweetId lessEq it.valueLong }
+        }
+        sinceId?.let {
+            query.andWhere { TweetsEntity.tweetId greaterEq it.valueLong }
+        }
+        return query
             .map {
                 convertResultRowToTweetDto(it)
             }

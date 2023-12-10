@@ -44,7 +44,7 @@ class AccountRepository {
         }
     }
 
-    fun getAccountsFollowedByAccountId(accountId: AccountId): List<AccountId> {
+    fun selectAccountsFollowedByAccountId(accountId: AccountId): List<AccountId> {
         return FollowersEntity.select {
             FollowersEntity.followingAccountId eq accountId.valueLong
         }.map {

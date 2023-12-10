@@ -38,8 +38,8 @@ class TweetService(
 
         val tweets = tweetRepository.selectAllTweet(
             count = count,
-            maxId = maxId?.let { TweetId(it) },
-            sinceId = sinceId?.let { TweetId(it) },
+            maxId = maxTweetId,
+            sinceId = sinceTweetId,
         ).map {
             convertTweetDtoToTweetRes(it)
         }
@@ -49,37 +49,60 @@ class TweetService(
         )
     }
 
-    /*
-    fun findByTweetId(tweetId: Long): GetTweetsByTweetIdRes {
-        return GetTweetsByTweetIdRes(
-            data = TweetRes(),
-            include = emptyList()
-        )
-    }
-     */
-
-    fun getAllTweetsByAccountId(
+    @Throws(IllegalArgumentException::class)
+    fun getAllTweetsByFollowedAccountsByAccountId(
         accountId: String,
+        count: Int,
+        maxId: String?,
+        sinceId: String?
     ): GetTweetsRes {
+        val maxTweetId = maxId?.let { TweetId(it) }
+        val sinceTweetId = sinceId?.let { TweetId(it) }
+
+        if (maxTweetId != null && sinceTweetId != null) {
+            require(maxTweetId >= sinceTweetId)
+        }
+
+        // REVIEW: accountIdがログイン中のuserIdのものなのかチェックが必要
+        val followingAccounts = accountRepository
+            .selectAccountsFollowedByAccountId(AccountId(accountId))
         val tweets = tweetRepository
-            .selectTweetByAccountId(AccountId(accountId))
+            .selectTweetsByAccountId(
+                accountIdList = followingAccounts.plus(AccountId(accountId)),
+                count = count,
+                maxId = maxTweetId,
+                sinceId = sinceTweetId,
+            )
             .map { convertTweetDtoToTweetRes(it) }
+
         return GetTweetsRes(
             total = tweets.size,
             tweets = tweets
         )
     }
 
-    fun getAllTweetsByFollowedAccountsByAccountId(
-        accountId: String
+    @Throws(IllegalArgumentException::class)
+    fun getTweetsByAccountId(
+        accountId: String,
+        count: Int,
+        maxId: String?,
+        sinceId: String?
     ): GetTweetsRes {
-        // REVIEW: accountIdがログイン中のuserIdのものなのかチェックが必要
-        val followingAccounts = accountRepository
-            .getAccountsFollowedByAccountId(AccountId(accountId))
-        val tweets = tweetRepository
-            .selectTweetByMultiAccountId(followingAccounts.plus(AccountId(accountId)))
-            .map { convertTweetDtoToTweetRes(it) }
+        val maxTweetId = maxId?.let { TweetId(it) }
+        val sinceTweetId = sinceId?.let { TweetId(it) }
 
+        if (maxTweetId != null && sinceTweetId != null) {
+            require(maxTweetId >= sinceTweetId)
+        }
+
+        val tweets = tweetRepository.selectTweetsByAccountId(
+            accountIdList = listOf(AccountId(accountId)),
+            count = count,
+            maxId = maxTweetId,
+            sinceId = sinceTweetId,
+        ).map {
+            convertTweetDtoToTweetRes(it)
+        }
         return GetTweetsRes(
             total = tweets.size,
             tweets = tweets

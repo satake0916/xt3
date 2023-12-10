@@ -172,7 +172,7 @@ paths:
   /v1/accounts/{accountId}/tweets:
     get:
       tags:
-        - statuses
+        - accounts
       summary: Get tweets of the account
       parameters:
         - name: accountId

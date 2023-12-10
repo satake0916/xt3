@@ -11,7 +11,6 @@ import com.example.xt3.openapi.generated.model.TweetRes
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.startWith
 import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDateTime
@@ -66,10 +65,36 @@ class TweetServiceTests : FunSpec({
         }
     }
 
-    context("getAllTweets"){
-        test("non-normal"){
+    context("getAllTweets") {
+        test("non-normal") {
             shouldThrow<IllegalArgumentException> {
                 tweetService.getAllTweets(
+                    count = 30,
+                    maxId = "5",
+                    sinceId = "10",
+                )
+            }
+        }
+    }
+
+    context("getTweetsByAccountId") {
+        test("non-normal") {
+            shouldThrow<IllegalArgumentException> {
+                tweetService.getTweetsByAccountId(
+                    accountId = "1",
+                    count = 30,
+                    maxId = "5",
+                    sinceId = "10",
+                )
+            }
+        }
+    }
+
+    context("getAllTweetsByFollowedAccountsByAccountId") {
+        test("non-normal") {
+            shouldThrow<IllegalArgumentException> {
+                tweetService.getAllTweetsByFollowedAccountsByAccountId(
+                    accountId = "1",
                     count = 30,
                     maxId = "5",
                     sinceId = "10",
