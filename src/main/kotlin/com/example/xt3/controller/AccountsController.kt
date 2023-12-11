@@ -4,6 +4,7 @@ import com.example.xt3.domain.service.AccountService
 import com.example.xt3.domain.service.TweetService
 import com.example.xt3.openapi.generated.controller.AccountsApi
 import com.example.xt3.openapi.generated.model.AccountRes
+import com.example.xt3.openapi.generated.model.GetAccountsRes
 import com.example.xt3.openapi.generated.model.GetTweetsRes
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -52,5 +53,20 @@ class AccountsController(
                 HttpStatus.BAD_REQUEST
             )
         }
+    }
+
+    override fun v1AccountsAccountIdFollowingGet(
+        accountId: String,
+        limit: Int,
+        offset: Long?
+    ): ResponseEntity<GetAccountsRes> {
+        return ResponseEntity(
+            accountService.findFollowingAccountsByAccountId(
+                accountId = accountId,
+                limit = limit,
+                offset = offset,
+            ),
+            HttpStatus.OK
+        )
     }
 }
