@@ -112,6 +112,7 @@ class TweetService(
     fun convertTweetDtoToTweetRes(
         tweetDto: TweetDto
     ): TweetRes {
+        // HACK: N+1問題。tweetsテーブルは巨大なので、preloadで対応する。
         val accountDto = accountRepository.getAccountsByAccountId(tweetDto.accountId)!!
         return TweetRes(
             tweetId = tweetDto.tweetId.getValueStr(),
