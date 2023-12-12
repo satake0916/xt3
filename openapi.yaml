@@ -241,6 +241,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetAccountsRes'
+    post:
+      tags:
+        - accounts
+      summary: the path account Follow the body account
+      parameters:
+        - name: accountId
+          in: path
+          description: ID of account has tweets to return
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FollowingReq'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FollowingRes'
   /v1/users/{userId}:
     get:
       tags:
@@ -368,6 +392,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AccountRes'
+    FollowingReq:
+      required:
+        - followedId
+      type: object
+      properties:
+        followingId:
+          type: string
+          example: 1
+        followedId:
+          type: string
+          example: 2
+    FollowingRes:
+      required:
+        - following
+      type: object
+      properties:
+        following:
+          type: boolean
+          example: true
     AuthForm:
       required:
         - email

@@ -3,6 +3,7 @@ package com.example.xt3.domain.service
 import com.example.xt3.domain.model.dto.AccountDto
 import com.example.xt3.domain.model.dto.AccountId
 import com.example.xt3.domain.repository.AccountRepository
+import com.example.xt3.domain.repository.FollowerRepository
 import com.example.xt3.openapi.generated.model.AccountRes
 import com.example.xt3.openapi.generated.model.GetAccountsRes
 import org.springframework.stereotype.Service
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class AccountService(
     private val accountRepository: AccountRepository,
+    private val followerRepository: FollowerRepository,
 ) {
     fun findByAccountId(accountId: String): AccountRes? {
         return accountRepository.getAccountsByAccountId(AccountId(accountId))?.let {
@@ -42,6 +44,16 @@ class AccountService(
         return GetAccountsRes(
             total = accounts.size,
             accounts = accounts,
+        )
+    }
+
+    fun followFollowedIdAccountByFollowingAccountId(
+        followingAccountId: String,
+        followedAccountId: String,
+    ) {
+        followerRepository.insertFollowers(
+            followingAccountId = AccountId(followingAccountId),
+            followedAccountId = AccountId(followedAccountId),
         )
     }
 

@@ -25,4 +25,3 @@ jobs:
           temperature: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature
           PROMPT: I need you to review my code and suggest improvements.
           max_tokens: 2048
-
