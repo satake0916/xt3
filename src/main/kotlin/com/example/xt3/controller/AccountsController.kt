@@ -4,6 +4,8 @@ import com.example.xt3.domain.service.AccountService
 import com.example.xt3.domain.service.TweetService
 import com.example.xt3.openapi.generated.controller.AccountsApi
 import com.example.xt3.openapi.generated.model.AccountRes
+import com.example.xt3.openapi.generated.model.FollowingReq
+import com.example.xt3.openapi.generated.model.FollowingRes
 import com.example.xt3.openapi.generated.model.GetAccountsRes
 import com.example.xt3.openapi.generated.model.GetTweetsRes
 import org.slf4j.LoggerFactory
@@ -67,6 +69,21 @@ class AccountsController(
                 offset = offset,
             ),
             HttpStatus.OK
+        )
+    }
+
+    override fun v1AccountsAccountIdFollowingPost(
+        accountId: String,
+        followingReq: FollowingReq,
+    ): ResponseEntity<FollowingRes> {
+        accountService.followFollowedIdAccountByFollowingAccountId(
+            followingAccountId = accountId,
+            followedAccountId = followingReq.followedId
+        )
+        return ResponseEntity.ok(
+            FollowingRes(
+                following = true
+            )
         )
     }
 }
