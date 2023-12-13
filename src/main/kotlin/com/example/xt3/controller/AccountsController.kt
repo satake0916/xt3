@@ -80,11 +80,10 @@ class AccountsController(
             followingAccountId = accountId,
             followedAccountId = followingReq.followedId
         )
-        return ResponseEntity(
+        return ResponseEntity.ok(
             FollowingRes(
                 following = true
-            ),
-            HttpStatus.OK
+            )
         )
     }
 }
