@@ -8,6 +8,7 @@ import com.example.xt3.openapi.generated.model.FollowingReq
 import com.example.xt3.openapi.generated.model.FollowingRes
 import com.example.xt3.openapi.generated.model.GetAccountsRes
 import com.example.xt3.openapi.generated.model.GetTweetsRes
+import com.example.xt3.openapi.generated.model.UnfollowRes
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -83,6 +84,18 @@ class AccountsController(
         return ResponseEntity.ok(
             FollowingRes(
                 following = true
+            )
+        )
+    }
+
+    override fun v1AccountsSourceAccountIdFollowingTargetAccountIdDelete(
+        sourceAccountId: String,
+        targetAccountId: String,
+    ): ResponseEntity<UnfollowRes> {
+        return ResponseEntity.ok(
+            accountService.sourceAccountIdUnfollowTargetAccountId(
+                sourceAccountId = sourceAccountId,
+                targetAccountId = targetAccountId,
             )
         )
     }

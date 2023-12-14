@@ -6,6 +6,7 @@ import com.example.xt3.domain.model.dto.AccountDto
 import com.example.xt3.domain.model.dto.AccountId
 import com.example.xt3.domain.model.dto.UserId
 import org.jetbrains.exposed.sql.JoinType
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.alias
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
