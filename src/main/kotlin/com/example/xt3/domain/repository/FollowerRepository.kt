@@ -19,7 +19,7 @@ class FollowerRepository {
 
     fun deleteFollowers(sourceAccountId: AccountId, targetAccountId: AccountId): Int {
         return FollowersEntity.deleteWhere {
-            followingAccountId eq sourceAccountId.valueLong and
+            (followingAccountId eq sourceAccountId.valueLong) and
                 (followedAccountId eq targetAccountId.valueLong)
         }
     }

@@ -73,10 +73,10 @@ class AccountService(
         sourceAccountId: String,
         targetAccountId: String,
     ): UnfollowRes {
-        val deletedFollowNum = followerRepository.deleteFollowers(
+        val unfollowedCount = followerRepository.deleteFollowers(
             sourceAccountId = AccountId(sourceAccountId),
             targetAccountId = AccountId(targetAccountId),
         )
-        return UnfollowRes(deletedFollowNum > 0)
+        return UnfollowRes(unfollowedCount > 0)
     }
 }
