@@ -6,6 +6,7 @@ import com.example.xt3.domain.repository.AccountRepository
 import com.example.xt3.domain.repository.FollowerRepository
 import com.example.xt3.openapi.generated.model.AccountRes
 import com.example.xt3.openapi.generated.model.GetAccountsRes
+import com.example.xt3.openapi.generated.model.UnfollowRes
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -66,5 +67,16 @@ class AccountService(
             profileImageUrl = accountDto.profileImageUrl,
             isPrimary = accountDto.isPrimary
         )
+    }
+
+    fun sourceAccountIdUnfollowTargetAccountId(
+        sourceAccountId: String,
+        targetAccountId: String,
+    ): UnfollowRes {
+        val deletedFollowNum = followerRepository.deleteFollowers(
+            sourceAccountId = AccountId(sourceAccountId),
+            targetAccountId = AccountId(targetAccountId),
+        )
+        return UnfollowRes(deletedFollowNum > 0)
     }
 }

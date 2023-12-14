@@ -265,6 +265,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FollowingRes'
+  /v1/accounts/{sourceAccountId}/following/{targetAccountId}:
+    delete:
+      tags:
+        - accounts
+      summary: sourceAccountId unfollow targetAccountId
+      parameters:
+        - name: sourceAccountId
+          in: path
+          description: ID of account unfollowing
+          required: true
+          schema:
+            type: string
+        - name: targetAccountId
+          in: path
+          description: ID ofaccount unfollowed
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: unfollow success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnfollowRes'
   /v1/users/{userId}:
     get:
       tags:
@@ -409,6 +434,14 @@ components:
       type: object
       properties:
         following:
+          type: boolean
+          example: true
+    UnfollowRes:
+      required:
+        - unfollow
+      type: object
+      properties:
+        unfollow:
           type: boolean
           example: true
     AuthForm:
