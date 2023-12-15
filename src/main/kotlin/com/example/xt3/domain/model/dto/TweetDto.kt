@@ -5,6 +5,8 @@ import java.time.LocalDateTime
 data class TweetDto(
     val tweetId: TweetId,
     val accountId: AccountId,
+    val accountName: String,
+    val displayName: String,
     val tweetText: String,
     val parentTweetId: TweetId?,
     val createdAt: LocalDateTime,
