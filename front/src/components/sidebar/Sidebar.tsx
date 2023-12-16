@@ -21,7 +21,7 @@ function Sidebar() {
       <SidebarOption text="Explore" Icon={SearchIcon} href="/explore"/>
       <SidebarOption text="Notifications" Icon={NotificationsNoneIcon} href="/notifications"/>
       <SidebarOption text="Messages" Icon={MailOutlineIcon} href="/messages"/>
-      <SidebarOption text="Profile" Icon={PermIdentityIcon} href="/home"/>
+      <SidebarOption text="Profile" Icon={PermIdentityIcon} href="/profile"/>
       <SidebarOption text="Login" Icon={LoginIcon} href="/login"/>
 
       <Button variant="outlined" className="sidebar-tweet" fullWidth>

@@ -5,9 +5,9 @@ import React, { useContext, useEffect, useState } from "react";
 import apiConfig from "../../config/ApiConfig";
 import { AccountsApi, StatusesApi, TweetsApi } from "../../openapi/generated/apis";
 import { TweetRes } from "../../openapi/generated/models";
-import Post from "./Post";
+import Post from "../common/Post";
 import TweetBox from "./TweetBox";
-import { UserContext } from "../../providers/UserProvider";
+import UserContext from '../../context/UserContext';
 
 function Timeline() {
   const [tweets, setTweets] = useState<TweetRes[]>([]);

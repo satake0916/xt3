@@ -1,23 +1,12 @@
 import {
-  createContext,
-  Dispatch,
   ReactNode,
-  SetStateAction,
   useEffect,
   useState,
 } from "react";
 
 import apiConfig from "../config/ApiConfig";
+import UserContext from "../context/UserContext";
 import { UsersApi } from "../openapi/generated/apis";
-
-export const UserContext = createContext(
-  {} as {
-    userId: string;
-    setUserId: Dispatch<SetStateAction<string>>;
-    activeAccountId: string;
-    setActiveAccountId: Dispatch<SetStateAction<string>>;
-  },
-);
 
 type UserProviderProps = {
   children: ReactNode;
