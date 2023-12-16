@@ -3,16 +3,20 @@ import React, { useContext, useState } from 'react'
 
 import apiConfig from '../../config/ApiConfig';
 import { LoginApi } from '../../openapi/generated/apis';
-import { UserContext } from '../../providers/UserProvider';
+import UserContext from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 function LoginBox() {
   const [inputEmail, setEmail] = useState("");
   const [inputPass, setPass] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const { setUserId } = useContext(UserContext);
+  const navigate = useNavigate()
 
   async function sendLoginReq(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    // ログイン情報を削除する
+    localStorage.clear();
     
     try{
       await new LoginApi(apiConfig).v1LoginPost({
@@ -21,7 +25,7 @@ function LoginBox() {
       }).then((res) => {
         setUserId(res.userId)
       })
-      setErrorMsg("success!")
+      navigate("/")
     } catch (error) {
       setErrorMsg("fail");
     }

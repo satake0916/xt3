@@ -4,7 +4,7 @@ import { Avatar, Button } from "@mui/material";
 import React, { useContext, useState } from "react";
 
 import { TweetsApi } from "../../openapi/generated/apis";
-import { UserContext } from "../../providers/UserProvider";
+import UserContext from '../../context/UserContext';
 import apiConfig from "../../config/ApiConfig";
 
 function TweetBox() {

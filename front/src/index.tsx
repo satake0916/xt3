@@ -12,6 +12,7 @@ import ErrorPage from "./components/errorpage/ErrorPage";
 import Login from "./components/login/Login";
 import Timeline from "./components/timeline/Timeline";
 import UserProvider from "./providers/UserProvider";
+import Profile from "./components/profile/Profile";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "profile",
+        element: <Profile accountId={undefined} />,
       },
     ],
   }
