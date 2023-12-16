@@ -32,24 +32,12 @@ class TweetServiceTests : FunSpec({
                 tweetId = TweetId(1),
                 tweetText = "first tweet",
                 accountId = AccountId(1),
+                accountName = "one_first",
+                displayName = "First",
                 parentTweetId = null,
                 createdAt = LocalDateTime.of(2023, 12, 10, 11, 11),
                 updatedAt = LocalDateTime.of(2023, 12, 10, 11, 11)
             )
-            every {
-                mockAccountRepository.getAccountsByAccountId(AccountId(1))
-            } returns
-                AccountDto(
-                    accountId = AccountId(1),
-                    accountName = "one_first",
-                    userId = UserId(1),
-                    displayName = "First",
-                    profileDescription = "Hi! Im first",
-                    profileImageUrl = "https://example.com/profile_img",
-                    isPrimary = true,
-                    createdAt = LocalDateTime.of(2023, 12, 9, 12, 0),
-                    updatedAt = LocalDateTime.of(2023, 12, 9, 12, 0),
-                )
 
             val actualTweetRes = tweetService.convertTweetDtoToTweetRes(sampleTweetDto)
             val expectedTweetRes = TweetRes(

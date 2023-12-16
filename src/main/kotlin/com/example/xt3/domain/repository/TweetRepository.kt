@@ -7,9 +7,12 @@ import com.example.xt3.domain.model.dto.TweetDto
 import com.example.xt3.domain.model.dto.TweetId
 import com.example.xt3.domain.model.dto.TweetQueryDto
 import org.jetbrains.exposed.sql.JoinType
-import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.greaterEq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.lessEq
+import org.jetbrains.exposed.sql.alias
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -30,32 +33,21 @@ class TweetRepository {
         maxId: TweetId?,
         sinceId: TweetId?,
     ): List<TweetDto> {
-        val query = TweetsEntity
-            .selectAll()
-            .limit(count)
-            .orderBy(TweetsEntity.createdAt)
-        maxId?.let {
-            query.andWhere { TweetsEntity.tweetId lessEq it.valueLong }
-        }
-        sinceId?.let {
-            query.andWhere { TweetsEntity.tweetId greaterEq it.valueLong }
-        }
-        return query
-            .map {
-                convertResultRowToTweetDto(it)
-            }
+        return getTweetDto(
+            op = Op.TRUE,
+            count = count,
+            maxId = maxId,
+            sinceId = sinceId,
+        )
     }
 
     fun selectTweetById(tweetId: TweetId): TweetDto? {
-        return TweetsEntity
-            .join(
-                otherTable = AccountsEntity,
-                JoinType.INNER,
-                onColumn = TweetsEntity.accountId,
-                otherColumn = AccountsEntity.accountId
-            ).select(TweetsEntity.tweetId eq tweetId.valueLong).firstOrNull()?.let {
-                convertResultRowToTweetDto(it)
-            }
+        return getTweetDto(
+            op = TweetsEntity.tweetId eq tweetId.valueLong,
+            count = 1,
+            maxId = null,
+            sinceId = null,
+        ).firstOrNull()
     }
 
     fun selectTweetsByAccountId(
@@ -64,30 +56,45 @@ class TweetRepository {
         maxId: TweetId?,
         sinceId: TweetId?,
     ): List<TweetDto> {
-        val query = TweetsEntity
-            .select(TweetsEntity.accountId.inList(accountIdList.map { it.valueLong }))
-            .limit(count)
-            .orderBy(TweetsEntity.createdAt)
-        maxId?.let {
-            query.andWhere { TweetsEntity.tweetId lessEq it.valueLong }
-        }
-        sinceId?.let {
-            query.andWhere { TweetsEntity.tweetId greaterEq it.valueLong }
-        }
-        return query
-            .map {
-                convertResultRowToTweetDto(it)
-            }
+        return getTweetDto(
+            TweetsEntity.accountId.inList(accountIdList.map { it.valueLong }),
+            count,
+            maxId,
+            sinceId,
+        )
     }
 
-    fun convertResultRowToTweetDto(resultRow: ResultRow): TweetDto {
-        return TweetDto(
-            tweetId = TweetId(resultRow[TweetsEntity.tweetId]),
-            accountId = AccountId(resultRow[TweetsEntity.accountId]),
-            tweetText = resultRow[TweetsEntity.tweetText],
-            parentTweetId = resultRow[TweetsEntity.parentTweetId]?.let { it1 -> TweetId(it1) },
-            createdAt = resultRow[TweetsEntity.createdAt],
-            updatedAt = resultRow[TweetsEntity.updatedAt]
-        )
+    fun getTweetDto(
+        op: Op<Boolean>,
+        count: Int,
+        maxId: TweetId?,
+        sinceId: TweetId?
+    ): List<TweetDto> {
+        val subQuery = TweetsEntity.select { op }
+            .limit(count)
+            .orderBy(TweetsEntity.createdAt)
+            .andWhere { TweetsEntity.tweetId lessEq (maxId?.valueLong ?: Long.MAX_VALUE) }
+            .andWhere { TweetsEntity.tweetId greaterEq (sinceId?.valueLong ?: 1L) }
+            .alias("subQuery")
+
+        return AccountsEntity.join(
+            subQuery,
+            JoinType.INNER,
+            additionalConstraint = {
+                AccountsEntity.accountId eq subQuery[TweetsEntity.accountId]
+            }
+        ).selectAll().map {
+            TweetDto(
+                tweetId = TweetId(it[subQuery[TweetsEntity.tweetId]]),
+                accountId = AccountId(it[AccountsEntity.accountId]),
+                accountName = it[AccountsEntity.accountName],
+                displayName = it[AccountsEntity.displayName],
+                tweetText = it[subQuery[TweetsEntity.tweetText]],
+                parentTweetId = it[subQuery[TweetsEntity.parentTweetId]]
+                    ?.let { it1 -> TweetId(it1) },
+                createdAt = it[subQuery[TweetsEntity.createdAt]],
+                updatedAt = it[subQuery[TweetsEntity.updatedAt]],
+            )
+        }
     }
 }

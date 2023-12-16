@@ -14,7 +14,7 @@ function TweetBox() {
 
   async function sendTweet(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    await new TweetsApi(apiConfig).tweetsPost({
+    await new TweetsApi(apiConfig).v1TweetsPost({
       tweetReq: {
         tweetText: tweetMessage,
         accountId: activeAccountId,
