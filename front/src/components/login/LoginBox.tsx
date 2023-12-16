@@ -15,7 +15,7 @@ function LoginBox() {
     e.preventDefault();
     
     try{
-      await new LoginApi(apiConfig).loginPost({
+      await new LoginApi(apiConfig).v1LoginPost({
         email: inputEmail,
         pass: inputPass
       }).then((res) => {

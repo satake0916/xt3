@@ -3,7 +3,7 @@ import "./Timeline.css";
 import React, { useContext, useEffect, useState } from "react";
 
 import apiConfig from "../../config/ApiConfig";
-import { TweetsApi } from "../../openapi/generated/apis";
+import { AccountsApi, StatusesApi, TweetsApi } from "../../openapi/generated/apis";
 import { TweetRes } from "../../openapi/generated/models";
 import Post from "./Post";
 import TweetBox from "./TweetBox";
@@ -15,8 +15,17 @@ function Timeline() {
 
   useEffect(() => {
     (async () => {
-      const res = await new TweetsApi(apiConfig).tweetsByFolloweeAccountIdGet({accountId: activeAccountId});
-      setTweets(res.tweets);
+      if(activeAccountId){
+        const res = await new StatusesApi(apiConfig).v1StatusesAccountTimelineAccountIdGet(
+          {
+            accountId: activeAccountId
+          }
+        )
+        setTweets(res.tweets);
+      }else{
+        const res = await new TweetsApi(apiConfig).v1TweetsGet()
+        setTweets(res.tweets)
+      }
     })();
   }, []);
 
@@ -30,8 +39,8 @@ function Timeline() {
 
       {tweets.map((tweet) => (
         <Post
-          displayName={tweet.accountId.toString()}
-          accountName={tweet.accountId.toString()}
+          displayName={tweet.displayName}
+          accountName={tweet.accountName}
           tweetText={tweet.tweetText}
         />
       ))}

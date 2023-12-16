@@ -6,7 +6,6 @@ import com.example.xt3.common.security.SimpleAuthenticationFailureHandler
 import com.example.xt3.common.security.SimpleAuthenticationSuccessHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -25,13 +24,7 @@ class SecurityConfig {
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests { requests ->
             requests
-                // .requestMatchers("/tweets").permitAll()
-                .requestMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
-        }.csrf { csrf ->
-            csrf.disable()
-        }.cors { cors ->
-            cors.configurationSource(corsConfigurationSource())
         }.formLogin { login ->
             login
                 .loginProcessingUrl("/v1/login").permitAll()
@@ -45,6 +38,10 @@ class SecurityConfig {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(HttpStatusReturningLogoutSuccessHandler())
+        }.cors { cors ->
+            cors.configurationSource(corsConfigurationSource())
+        }.csrf { csrf ->
+            csrf.disable()
         }.exceptionHandling { ex ->
             ex
                 .authenticationEntryPoint(SimpleAuthenticationEntryPoint())
@@ -62,7 +59,8 @@ class SecurityConfig {
         val configuration = CorsConfiguration()
         configuration.allowCredentials = true
         configuration.allowedOrigins = listOf("http://localhost:3000")
-        configuration.allowedMethods = listOf("GET", "POST", "OPTIONS")
+        configuration.allowedMethods = listOf(CorsConfiguration.ALL)
+        configuration.allowedHeaders = listOf(CorsConfiguration.ALL)
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source

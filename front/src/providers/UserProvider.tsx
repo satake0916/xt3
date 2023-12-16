@@ -12,10 +12,10 @@ import { UsersApi } from "../openapi/generated/apis";
 
 export const UserContext = createContext(
   {} as {
-    userId: number;
-    setUserId: Dispatch<SetStateAction<number>>;
-    activeAccountId: number;
-    setActiveAccountId: Dispatch<SetStateAction<number>>;
+    userId: string;
+    setUserId: Dispatch<SetStateAction<string>>;
+    activeAccountId: string;
+    setActiveAccountId: Dispatch<SetStateAction<string>>;
   },
 );
 
@@ -24,12 +24,12 @@ type UserProviderProps = {
 };
 
 function UserProvider({ children }: UserProviderProps) {
-  const [userId, setUserId] = useState(0);
-  const [activeAccountId, setActiveAccountId] = useState(0);
+  const [userId, setUserId] = useState("");
+  const [activeAccountId, setActiveAccountId] = useState("");
 
   useEffect(() => {
     new UsersApi(apiConfig)
-      .usersUserIdGet({
+      .v1UsersUserIdGet({
         userId,
       })
       .then((res) => {
