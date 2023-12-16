@@ -19,25 +19,27 @@ function Profile({accountId}: props) {
   const {activeAccountId} = useContext(UserContext)
 
   useEffect(() => {
-    accountId ??= activeAccountId;
+    const targetAccountId = accountId ?? activeAccountId;
 
-    (async () => {
-        const res = await new AccountsApi(apiConfig).v1AccountsAccountIdGet(
+    if(targetAccountId){
+      (async () => {
+          const res = await new AccountsApi(apiConfig).v1AccountsAccountIdGet(
+            {
+              accountId: targetAccountId
+            }
+          )
+          setAccountInfo(res)
+      })();
+
+      (async () => {
+        const res = await new AccountsApi(apiConfig).v1AccountsAccountIdTweetsGet(
           {
-            accountId: accountId
+            accountId: targetAccountId
           }
         )
-        setAccountInfo(res)
-    })();
-
-    (async () => {
-      const res = await new AccountsApi(apiConfig).v1AccountsAccountIdTweetsGet(
-        {
-          accountId: accountId
-        }
-      )
-      setOwnTweets(res.tweets)
-    })();
+        setOwnTweets(res.tweets)
+      })();
+    }
   })
 
   return (

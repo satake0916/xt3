@@ -13,6 +13,9 @@ function Timeline() {
   const [tweets, setTweets] = useState<TweetRes[]>([]);
   const {activeAccountId} = useContext(UserContext)
 
+  // REVIEW: 
+  // リロード時にこのuseEffectがUserProviderのuseEffectよりも先に呼ばれてしまうため、elseに行ってしまう
+  // Profileも同様の動きをする
   useEffect(() => {
     (async () => {
       if(activeAccountId){
