@@ -1,6 +1,6 @@
 .profile-box{
   padding: 20px 10px;
-  border-bottom: 1px solid var(--twitter-background)
+  border-bottom: 1px solid var(--twitter-background);
 }
 
 .profile-box-header{
@@ -10,9 +10,9 @@
 .profile-box-header > h2 {
   margin: 0;
   margin-bottom: 1px;
-  font-weight: 800
+  font-weight: 800;
 }
 
 .profile-box-header > p {
-  color: gray
+  color: gray;
 }
