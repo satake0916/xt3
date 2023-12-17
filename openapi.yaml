@@ -169,6 +169,32 @@ paths:
           description: please login
         '404':
           description: account not found
+  /v1/accounts/by/account-name/{accountName}:
+    get:
+      tags:
+        - accounts
+      summary: Get account by account name
+      description: Returns an account information
+      parameters:
+        - name: accountName
+          in: path
+          description: Account Name of account to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountRes'
+        '400':
+          description: no account name
+        '403':
+          description: please login
+        '404':
+          description: account not found
   /v1/accounts/{accountId}/tweets:
     get:
       tags:
