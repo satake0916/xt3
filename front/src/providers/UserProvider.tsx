@@ -9,7 +9,8 @@ import UserContext from "../context/UserContext";
 import { UsersApi } from "../openapi/generated/apis";
 
 export const USER_ID = "USER_ID";
-export const ACTIVE_ACCOUNT_ID = "ACTIVE_ACCOUNT_ID"
+export const ACTIVE_ACCOUNT_ID = "ACTIVE_ACCOUNT_ID";
+export const ACTIVE_ACCOUNT_NAME = "ACTIVE_ACCOUNT_NAME";
 
 type UserProviderProps = {
   children: ReactNode;
@@ -18,6 +19,7 @@ type UserProviderProps = {
 function UserProvider({ children }: UserProviderProps) {
   const [userId, setUserId] = useState("");
   const [activeAccountId, setActiveAccountId] = useState("");
+  const [activeAccountName, setActiveAccountName] = useState("");
 
   // ローカルストレージに値がある場合はそれを使用
   useEffect(() => {
@@ -29,6 +31,11 @@ function UserProvider({ children }: UserProviderProps) {
     const storedActiveAccountId = localStorage.getItem(ACTIVE_ACCOUNT_ID);
     if(storedActiveAccountId){
       setActiveAccountId(storedActiveAccountId)
+    }
+
+    const storedActiveAccountName = localStorage.getItem(ACTIVE_ACCOUNT_NAME);
+    if(storedActiveAccountName){
+      setActiveAccountName(storedActiveAccountName);
     }
   }, [])
 
@@ -42,9 +49,11 @@ function UserProvider({ children }: UserProviderProps) {
             userId,
           })
           .then((res) => {
-            const {accountId} = (res.include.filter((account) => account.isPrimary).pop()!)
+            const {accountId, accountName} = (res.include.filter((account) => account.isPrimary).pop()!);
             setActiveAccountId(accountId);
-            localStorage.setItem(ACTIVE_ACCOUNT_ID, accountId)
+            localStorage.setItem(ACTIVE_ACCOUNT_ID, accountId);
+            setActiveAccountName(accountName);
+            localStorage.setItem(ACTIVE_ACCOUNT_NAME, accountName);
           })
           .catch((e) => {
             console.log(e);
@@ -60,6 +69,8 @@ function UserProvider({ children }: UserProviderProps) {
         setUserId,
         activeAccountId,
         setActiveAccountId,
+        activeAccountName,
+        setActiveAccountName,
       }}
     >
       {children}

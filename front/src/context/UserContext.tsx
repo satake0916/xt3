@@ -6,6 +6,8 @@ const UserContext = createContext(
     setUserId: Dispatch<SetStateAction<string>>;
     activeAccountId: string;
     setActiveAccountId: Dispatch<SetStateAction<string>>;
+    activeAccountName: string;
+    setActiveAccountName: Dispatch<SetStateAction<string>>;
   },
 );
 

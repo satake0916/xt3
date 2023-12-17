@@ -33,8 +33,8 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "profile",
-        element: <Profile accountId={undefined} />,
+        path: ":accountName",
+        element: <Profile />,
       },
     ],
   }
