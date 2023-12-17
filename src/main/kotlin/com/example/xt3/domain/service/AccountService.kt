@@ -18,14 +18,13 @@ class AccountService(
 ) {
     fun findByAccountId(accountId: String): AccountRes? {
         return accountRepository.getAccountsByAccountId(AccountId(accountId))?.let {
-            AccountRes(
-                accountId = it.accountId.getValueStr(),
-                accountName = it.accountName,
-                displayName = it.displayName,
-                profileDescription = it.profileDescription,
-                profileImageUrl = it.profileImageUrl,
-                isPrimary = it.isPrimary
-            )
+            convertAccountDtoToAccountRes(it)
+        }
+    }
+
+    fun findByAccountName(accountName: String): AccountRes? {
+        return accountRepository.getAccountByAccountName(accountName)?.let {
+            convertAccountDtoToAccountRes(it)
         }
     }
 

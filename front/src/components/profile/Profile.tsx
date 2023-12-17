@@ -8,33 +8,33 @@ import { AccountRes, TweetRes } from "../../openapi/generated/models";
 import UserContext from '../../context/UserContext';
 import Post from "../common/Post";
 import ProfileBox from "./ProfileBox";
+import { useParams } from "react-router-dom";
 
-type props = {
-  accountId: string | undefined
-}
-
-function Profile({accountId}: props) {
+function Profile() {
   const [accountInfo, setAccountInfo] = useState<AccountRes>();
   const [ownTweets, setOwnTweets] = useState<TweetRes[]>([]);
-  const {activeAccountId} = useContext(UserContext)
+  // const {activeAccountId} = useContext(UserContext)
+  const {accountName} = useParams();
 
   useEffect(() => {
-    const targetAccountId = accountId ?? activeAccountId;
+    // REVIEW: 1page1apiに反している。Accountを取得する際にtweetsも同時に取得したい。
 
-    if(targetAccountId){
+    if(accountName){
       (async () => {
-          const res = await new AccountsApi(apiConfig).v1AccountsAccountIdGet(
+          const res = await new AccountsApi(apiConfig).v1AccountsByAccountNameAccountNameGet(
             {
-              accountId: targetAccountId
+              accountName: accountName
             }
           )
           setAccountInfo(res)
       })();
+    }
 
+    if(accountInfo){
       (async () => {
         const res = await new AccountsApi(apiConfig).v1AccountsAccountIdTweetsGet(
           {
-            accountId: targetAccountId
+            accountId: accountInfo.accountId
           }
         )
         setOwnTweets(res.tweets)

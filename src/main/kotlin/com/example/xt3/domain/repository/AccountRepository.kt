@@ -6,6 +6,7 @@ import com.example.xt3.domain.model.dto.AccountDto
 import com.example.xt3.domain.model.dto.AccountId
 import com.example.xt3.domain.model.dto.UserId
 import org.jetbrains.exposed.sql.JoinType
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.alias
 import org.jetbrains.exposed.sql.select
@@ -18,33 +19,21 @@ class AccountRepository {
         return AccountsEntity.select {
             AccountsEntity.accountId eq accountId.valueLong
         }.firstOrNull()?.let {
-            AccountDto(
-                accountId = AccountId(it[AccountsEntity.accountId]),
-                userId = UserId(it[AccountsEntity.userId]),
-                accountName = it[AccountsEntity.displayName],
-                displayName = it[AccountsEntity.displayName],
-                profileDescription = it[AccountsEntity.profileDescription],
-                profileImageUrl = it[AccountsEntity.profileImageUrl],
-                isPrimary = it[AccountsEntity.isPrimary],
-                createdAt = it[AccountsEntity.createdAt],
-                updatedAt = it[AccountsEntity.updatedAt]
-            )
+            convertAccountsRowToAccountDto(it)
+        }
+    }
+
+    fun getAccountByAccountName(accountName: String): AccountDto?{
+        return AccountsEntity.select {
+            AccountsEntity.accountName eq accountName
+        }.firstOrNull()?.let {
+            convertAccountsRowToAccountDto(it)
         }
     }
 
     fun getAccountsByUserId(userId: UserId): List<AccountDto> {
         return AccountsEntity.select { AccountsEntity.userId eq userId.valueLong }.map {
-            AccountDto(
-                accountId = AccountId(it[AccountsEntity.accountId]),
-                userId = UserId(it[AccountsEntity.userId]),
-                accountName = it[AccountsEntity.accountName],
-                displayName = it[AccountsEntity.displayName],
-                profileDescription = it[AccountsEntity.profileDescription],
-                profileImageUrl = it[AccountsEntity.profileImageUrl],
-                isPrimary = it[AccountsEntity.isPrimary],
-                createdAt = it[AccountsEntity.createdAt],
-                updatedAt = it[AccountsEntity.updatedAt]
-            )
+            convertAccountsRowToAccountDto(it)
         }
     }
 
@@ -94,17 +83,21 @@ class AccountRepository {
                 AccountsEntity.accountId eq followingSubQuery[FollowersEntity.followedAccountId]
             }
         ).selectAll().map {
-            AccountDto(
-                accountId = AccountId(it[AccountsEntity.accountId]),
-                userId = UserId(it[AccountsEntity.userId]),
-                accountName = it[AccountsEntity.accountName],
-                displayName = it[AccountsEntity.displayName],
-                profileDescription = it[AccountsEntity.profileDescription],
-                profileImageUrl = it[AccountsEntity.profileImageUrl],
-                isPrimary = it[AccountsEntity.isPrimary],
-                createdAt = it[AccountsEntity.createdAt],
-                updatedAt = it[AccountsEntity.updatedAt]
-            )
+            convertAccountsRowToAccountDto(it)
         }
+    }
+
+    fun convertAccountsRowToAccountDto(accountRow: ResultRow): AccountDto {
+        return AccountDto(
+            accountId = AccountId(accountRow[AccountsEntity.accountId]),
+            userId = UserId(accountRow[AccountsEntity.userId]),
+            accountName = accountRow[AccountsEntity.accountName],
+            displayName = accountRow[AccountsEntity.displayName],
+            profileDescription = accountRow[AccountsEntity.profileDescription],
+            profileImageUrl = accountRow[AccountsEntity.profileImageUrl],
+            isPrimary = accountRow[AccountsEntity.isPrimary],
+            createdAt = accountRow[AccountsEntity.createdAt],
+            updatedAt = accountRow[AccountsEntity.updatedAt]
+        )
     }
 }

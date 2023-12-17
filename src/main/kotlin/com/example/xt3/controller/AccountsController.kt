@@ -34,6 +34,21 @@ class AccountsController(
         }
     }
 
+    override fun v1AccountsByAccountNameAccountNameGet(
+        accountName: String
+    ): ResponseEntity<AccountRes> {
+        val account = accountService.findByAccountName(accountName)
+        return if (account == null) {
+            ResponseEntity(
+                HttpStatus.NOT_FOUND
+            )
+        } else {
+            ResponseEntity.ok(
+                account,
+            )
+        }
+    }
+
     override fun v1AccountsAccountIdTweetsGet(
         accountId: String,
         count: Int,
