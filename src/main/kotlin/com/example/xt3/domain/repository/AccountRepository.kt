@@ -23,7 +23,7 @@ class AccountRepository {
         }
     }
 
-    fun getAccountByAccountName(accountName: String): AccountDto?{
+    fun getAccountByAccountName(accountName: String): AccountDto? {
         return AccountsEntity.select {
             AccountsEntity.accountName eq accountName
         }.firstOrNull()?.let {
