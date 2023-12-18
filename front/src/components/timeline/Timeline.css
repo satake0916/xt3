@@ -21,3 +21,9 @@
   font-size: 20px;
   font-weight: 800;
 }
+
+.timeline-loader {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
